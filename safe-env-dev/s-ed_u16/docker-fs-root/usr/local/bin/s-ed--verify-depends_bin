@@ -64,11 +64,12 @@ done
 
 
 DIFF_OUTPUT=$( diff -r --brief "$SRC_DIR" "$DST_DIR" 2>/dev/null | 
-               grep -vE ': built|: SDKs|: sources|: work|: x86_64-pc-linux-gnu|: x86_64-w64-mingw32|: i686-w64-mingw32|: x86_64-apple-darwin11' ) || {
-  RET_VAL=$?
+               grep -vE ': built|: SDKs|: sources|: work|: x86_64-pc-linux-gnu|: x86_64-w64-mingw32|: i686-w64-mingw32|: x86_64-apple-darwin11' )
+RET_VAL=$?
+[[ $RET_VAL != 0 && $RET_VAL != 1 ]] && {
   [ ${VERBOSE} = "true" ] && {
     echo "=========="
-    echo "diff exit code: $RET_VAL, then $0 exit $RET_VAL also"
+    echo "'diff xxx | grep yyy' exit code: $RET_VAL, then $0 exit $RET_VAL also"
   }
   exit $RET_VAL
 }
@@ -78,7 +79,7 @@ RET_VAL=$?
 
 [ ${VERBOSE} = "true" ] && {
   echo "==========" 
-  echo "diff output:" 
+  echo "'diff xxx | grep yyy' output:" 
   echo $DIFF_OUTPUT 
   echo "=========="
   echo "$0 exit code: $RET_VAL"

@@ -31,6 +31,7 @@ DEPENDS_GZ_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/depends.*.tar.gz
 MACOSX_SDK_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/MacOSX*-SDKs.tar.gz
 
 tar xzvf ${DEPENDS_GZ_FILE} &&
+rm -rf depends_bin &&
 mv depends depends_bin &&
 cd depends_bin &&
 tar xzvf ${MACOSX_SDK_FILE} &&

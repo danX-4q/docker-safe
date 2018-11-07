@@ -1,0 +1,22 @@
+####for cmd: add-apt-repository
+software-properties-common
+
+####from shuq
+git autoconf make gcc  g++ libdb-dev libdb++-dev libboost-all-dev zlib1g-dev libssl-dev build-essential libminiupnpc-dev libtool pkg-config libevent-dev libzmq3-dev
+libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler gcc-multilib libqrencode-dev
+
+####from safe/README.md
+build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils
+libboost-all-dev
+####libdb4.8-dev libdb4.8++-dev #use new: libdb5.3-dev libdb5.3++-dev
+libdb5.3-dev libdb5.3++-dev
+libminiupnpc-dev
+libzmq3-dev
+libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
+libqrencode-dev
+
+####from <<safe's static link method at linux>>
+curl librsvg2-bin libtiff-tools bsdmainutils cmake imagemagick libcap-dev libz-dev libbz2-dev python-setuptools mingw-w64
+
+####common utils
+vim tree tzdata locales x11-xserver-utils

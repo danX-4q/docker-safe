@@ -1,5 +1,5 @@
 #FROM ubuntu:16.04
-FROM bankledger/s-edb:2.0.0-ubuntu16
+FROM bankledger/s-edb:2.0.0-u16.04-1
 
 ADD ./docker-fs-root/ /
 WORKDIR /home/s-ed/

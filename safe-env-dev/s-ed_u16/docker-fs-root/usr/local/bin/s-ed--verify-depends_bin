@@ -1,0 +1,81 @@
+#!/bin/bash
+
+TEMP=`getopt -o s:d:vh --long src_dir:,dst_dir:,verbose,help -- "$@"`
+
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+
+# Note the quotes around `$TEMP': they are essential!
+eval set -- "$TEMP"
+
+########################################
+########################################
+########################################
+
+SRC_DIR="/home/s-ed/depends_bin/"
+DST_DIR="$PWD/depends/"
+VERBOSE="false"
+
+function usage {
+  echo "Usage: $0 [-s|--src_dir SRC_DIR] [-d|--dst_dir DST_DIR] [-v|--verbose] [-h|--help]"
+  cat <<EOF
+Options:
+  -s|--src_di	default: "/home/s-ed/depends_bin/"
+  -d|--dst_dir	default: "$PWD/depends/"
+  -v|--verbose	true or false; default: false
+  -h|--help	show help message
+
+EOF
+}
+
+function dump_args {
+  echo "=========="
+  echo "cmd args:"
+  echo "SRC_DIR = $SRC_DIR"
+  echo "DST_DIR = $DST_DIR"
+  echo "VERBOSE = $VERBOSE"
+}
+
+########################################
+########################################
+########################################
+
+while true; do
+  case "$1" in
+    -s | --src_dir )
+      SRC_DIR="$2"; shift 2 ;;
+    -d | --dst_dir )
+      DST_DIR="$2"; shift 2 ;;
+    -v | --verbose )
+      VERBOSE="true"; shift ;;
+    -h | --help )
+      usage; exit 0;;
+    -- ) 
+      shift; break ;;
+    * )
+      break ;;
+  esac
+done
+
+[ ${VERBOSE} = "true" ] && dump_args
+
+########################################
+########################################
+########################################
+
+
+DIFF_OUTPUT=$( diff -r --brief "$SRC_DIR" "$DST_DIR" | 
+               grep -vE ': built|: SDKs|: sources|: work|: x86_64-pc-linux-gnu|: x86_64-w64-mingw32|: i686-w64-mingw32|: x86_64-apple-darwin11' )
+
+[ -z "${DIFF_OUTPUT}" ]
+RET_VAL=$?
+
+[ ${VERBOSE} = "true" ] && {
+echo "==========" 
+echo "diff output:" 
+echo $DIFF_OUTPUT 
+echo "=========="
+echo "exit code: $RET_VAL"
+}
+
+exit $RET_VAL
+

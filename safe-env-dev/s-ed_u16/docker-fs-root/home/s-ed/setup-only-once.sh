@@ -13,6 +13,7 @@ then
         ROOT_DIR=/
         find ${ROOT_DIR}/home/ | grep  -E '.gitkeep|.gitignore' | xargs rm -rf
         find ${ROOT_DIR}/home/ -name '*.sh' | xargs chmod +x
+        find ${ROOT_DIR}/usr/local/bin/ | xargs chmod +x
 else
         ROOT_DIR="${PWD}/"
         mkdir -p ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
@@ -36,10 +37,10 @@ mv depends depends_bin &&
 cd depends_bin &&
 tar xzvf ${MACOSX_SDK_FILE} &&
 make HOST=x86_64-pc-linux-gnu -j4 &&
-#make HOST=x86_64-w64-mingw32 -j4 &&
-#make HOST=i686-w64-mingw32 -j4 &&
-#make HOST=x86_64-apple-darwin11 ||
-#{ echo "$0 said: error when make HOST=xxx"; exit 1; }
+make HOST=x86_64-w64-mingw32 -j4 &&
+make HOST=i686-w64-mingw32 -j4 &&
+make HOST=x86_64-apple-darwin11 ||
+{ echo "$0 said: error when make HOST=xxx"; exit 1; }
 
 #######################################
 #######################################

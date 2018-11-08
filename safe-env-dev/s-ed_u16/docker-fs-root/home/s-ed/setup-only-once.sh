@@ -31,6 +31,14 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 DEPENDS_GZ_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/depends.*.tar.gz
 MACOSX_SDK_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/MacOSX*-SDKs.tar.gz
 
+[ -f "$DEPENDS_GZ_FILE" ] && 
+[ "18f45ffff2a0e6febd18de74c2abe9f7" == "$(md5sum "$DEPENDS_GZ_FILE" | awk '{print $1}')" ] ||
+{ echo "$0 said: depends.*.tar.gz error; exit 1; }
+
+[ -f "$MACOSX_SDK_FILE" ] && 
+[ "cc2d742d09e7e5e01e999098794fa2af" == "$(md5sum "$MACOSX_SDK_FILE" | awk '{print $1}')" ] ||
+{ echo "$0 said: MacOSX*-SDKs.tar.gz error; exit 1; }
+
 tar xzvf ${DEPENDS_GZ_FILE} &&
 rm -rf depends_bin &&
 mv depends depends_bin &&

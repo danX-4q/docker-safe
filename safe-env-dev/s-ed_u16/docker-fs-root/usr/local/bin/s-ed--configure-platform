@@ -1,0 +1,120 @@
+#!/bin/bash
+
+TEMP=`getopt -o s:d:p:vh --long safe_dir:,depbin_dir:,platform:,verbose,help -- "$@"`
+
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+
+# Note the quotes around `$TEMP': they are essential!
+eval set -- "$TEMP"
+
+########################################
+########################################
+########################################
+
+DEPBIN_DIR="/home/s-ed/depends_bin/"
+SAFE_DIR="$PWD/"
+PLATFORM="x86_64-pc-linux-gnu"
+VERBOSE="false"
+
+function usage {
+  echo "Usage: $0 [-s|--safe_dir SAFE_DIR] [-d|--depbin_dir DEPBIN_DIR] [-p|--platform PLATFORM] [-v|--verbose] [-h|--help]"
+  cat <<EOF
+Options:
+  -s|--safe_dir		default: $PWD/
+  -d|--depbin_dir	default: /home/s-ed/depends_bin/
+  -p|--platform		[x86_64-pc-linux-gnu,x86_64-w64-mingw32,i686-w64-mingw32,x86_64-apple-darwin11]
+			default: x86_64-pc-linux-gnu
+  -v|--verbose		true or false; default: false
+  -h|--help		show help message
+
+EOF
+}
+
+function dump_args {
+  echo "=========="
+  echo "cmd args:"
+  echo "SAFE_DIR = $SAFE_DIR"
+  echo "DEPBIN_DIR = $DEPBIN_DIR"
+  echo "PLATFORM = $PLATFORM"
+  echo "VERBOSE = $VERBOSE"
+}
+
+########################################
+########################################
+########################################
+
+while true; do
+  case "$1" in
+    -s | --safe_dir )
+      SAFE_DIR="$2"; shift 2 ;;
+    -d | --depbin_dir )
+      DEPBIN_DIR="$2"; shift 2 ;;
+    -p | --platform )
+      PLATFORM="$2"; shift 2 ;;
+    -v | --verbose )
+      VERBOSE="true"; shift ;;
+    -h | --help )
+      usage; exit 0;;
+    -- ) 
+      shift; break ;;
+    * )
+      break ;;
+  esac
+done
+
+[ ${VERBOSE} = "true" ] && dump_args
+
+########################################
+########################################
+########################################
+
+CONFIGURE_CMD=""
+[[ "$PLATFORM" == "x86_64-pc-linux-gnu" ]] &&
+CONFIGURE_CMD="./configure --prefix=${DEPBIN_DIR}/${PLATFORM} --with-incompatible-bdb --disable-tests --disable-bench --with-gui=no"
+[[ "$PLATFORM" == "x86_64-w64-mingw32" || "$PLATFORM" == "i686-w64-mingw32" || "$PLATFORM" == "x86_64-apple-darwin11" ]] &&
+CONFIGURE_CMD="./configure --prefix=${DEPBIN_DIR}/${PLATFORM} --with-incompatible-bdb --disable-tests --disable-bench --with-gui=qt5"
+[ -z "${CONFIGURE_CMD}" ] && {
+  RET_VAL=1
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "$0 said: invalid platform, exit $RET_VAL."
+  }
+  exit $RET_VAL
+}
+
+
+cd "$SAFE_DIR" || {
+  RET_VAL=$?
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "cd exit code: $RET_VAL, then $0 exit $RET_VAL also"
+  }
+  exit $RET_VAL
+}
+
+make distclean # &&
+./autogen.sh || {
+  RET_VAL=$?
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "./autogen.sh error,  exit code: $RET_VAL, then $0 exit $RET_VAL also"
+  }
+  exit $RET_VAL
+}
+
+$CONFIGURE_CMD || {
+  RET_VAL=$?
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "./configure exit code: $RET_VAL, then $0 exit $RET_VAL also"
+  }
+  exit $RET_VAL
+}
+
+[ ${VERBOSE} = "true" ] && {
+  echo "=========="
+  echo "$0 exit code: 0"
+}
+
+exit 0
+

@@ -11,16 +11,16 @@ eval set -- "$TEMP"
 ########################################
 ########################################
 
-SAFE_DIR="$PWD/"
 DEPBIN_DIR="/home/s-ed/depends_bin/"
+SAFE_DIR="$PWD/"
 VERBOSE="false"
 
 function usage {
   echo "Usage: $0 [-s|--safe_dir SAFE_DIR] [-d|--depbin_dir DEPBIN_DIR] [-v|--verbose] [-h|--help]"
   cat <<EOF
 Options:
-  -s|--safe_dir		default: $PWD/
-  -d|--depbin_dir	default: /home/s-ed/depends_bin/
+  -s|--safe_dir		default: "$PWD/"
+  -d|--depbin_dir	default: "/home/s-ed/depends_bin/"
   -v|--verbose		true or false; default: false
   -h|--help		show help message
 
@@ -62,28 +62,36 @@ done
 ########################################
 ########################################
 
-
-DIFF_OUTPUT=$( diff -r --brief "$DEPBIN_DIR" "$SAFE_DIR/depends/" 2>/dev/null | 
-               grep -vE ': built|: SDKs|: sources|: work|: x86_64-pc-linux-gnu|: x86_64-w64-mingw32|: i686-w64-mingw32|: x86_64-apple-darwin11' )
-RET_VAL=$?
-[[ $RET_VAL != 0 && $RET_VAL != 1 ]] && {
+[ -e "${SAFE_DIR}depends_bin" ] && {
   [ ${VERBOSE} = "true" ] && {
     echo "=========="
-    echo "'diff xxx | grep yyy' exit code: $RET_VAL, then $0 exit $RET_VAL also"
+    echo "$0 said: ${SAFE_DIR}depends_bin has been exists; exit 1."
+  }
+  exit 1
+}
+
+s-ed--verify-depends_bin --safe_dir "$SAFE_DIR" --depbin_dir "$DEPBIN_DIR" || {
+  RET_VAL=$?
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "s-ed--verify-depends_bin exit code: $RET_VAL, then $0 exit $RET_VAL also"
   }
   exit $RET_VAL
 }
 
-[ -z "${DIFF_OUTPUT}" ]
-RET_VAL=$?
-
-[ ${VERBOSE} = "true" ] && {
-  echo "==========" 
-  echo "'diff xxx | grep yyy' output:" 
-  echo $DIFF_OUTPUT 
-  echo "=========="
-  echo "$0 exit code: $RET_VAL"
+ln -s "$DEPBIN_DIR" "${SAFE_DIR}/depends_bin" || {
+  RET_VAL=$?
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "'ln -s xxx' exit code: $RET_VAL, then $0 exit $RET_VAL also"
+  }
+  exit $RET_VAL
 }
 
-exit $RET_VAL
+[ ${VERBOSE} = "true" ] && {
+  echo "=========="
+  echo "$0 exit code: 0"
+}
+
+exit 0
 

@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  s-edb:
+    build:
+      context: .
+    labels:
+      author: "danX <chenxd@bankledger.com>"
+      maintainer: "danX <chenxd@bankledger.com>"
+      version: "1.0.0"
+      description: "This is the base develop environment for compiling"
+    image: bankledger/s-edb:1.0.0-u14.04-1
+    env_file:
+      - ./docker-env.git
+    volumes:
+      - ./docker-mount/bankledger:/home/bankledger
+      - ./docker-mount/ex-work:/home/ex-work
+#sample only
+#    ports:
+#      - "8081:8081"

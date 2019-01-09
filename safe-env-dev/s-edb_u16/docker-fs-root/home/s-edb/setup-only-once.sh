@@ -71,9 +71,9 @@ update-alternatives --set i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-pos
 #######################################
 #section: 
 
-cd /usr/lib/x86_64-linux-gnu/qtchooser/ &&
-ln -s ../../../share/qtchooser/qt5-x86_64-linux-gnu.conf default.conf ||
-{ echo "$0 said: error when setting qmake[qt5]"; exit 1; }
+#cd /usr/lib/x86_64-linux-gnu/qtchooser/ &&
+#ln -s ../../../share/qtchooser/qt5-x86_64-linux-gnu.conf default.conf ||
+# { echo "$0 said: error when setting qmake[qt5]"; exit 1; }
 
 #######################################
 #######################################

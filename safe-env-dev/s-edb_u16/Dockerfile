@@ -15,11 +15,11 @@ RUN chmod +x setup-only-once.sh && \
     DOCKER_ONBUILD=true ./setup-only-once.sh
 
 RUN echo "Asia/Shanghai" > /etc/timezone && \
-    rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
+    rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     locale-gen zh_CN.UTF-8 && \
     DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
-ENV TZ=Asia/Shanghai LANG=zh_CN.UTF-8 LANGUAGE=zh_CN:zh LC_ALL=zh_CN.UTF-8
+ENV TZ=Asia/Shanghai LANG=zh_CN.UTF-8 LANGUAGE=zh_CN:zh LC_ALL=zh_CN.UTF-8 DISPLAY=:0
 
 CMD ["tail", "-f", "/dev/null"]
 

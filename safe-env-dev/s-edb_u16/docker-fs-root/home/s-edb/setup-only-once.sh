@@ -28,7 +28,7 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 #section: replace os's default sources.list
 
 [ -f /etc/apt/sources.list ] && mv /etc/apt/sources.list /etc/apt/sources.list_os.nouse
-mv /etc/apt/sources.list.d/aliyun-mirror.list /etc/apt/sources.list ||
+cp /etc/apt/sources.list.d/aliyun-mirror.list /etc/apt/sources.list ||
 { echo "$0 said: error when replace /etc/apt/sources.list"; exit 1; }
 
 #######################################
@@ -80,7 +80,6 @@ ln -s ../../../share/qtchooser/qt5-x86_64-linux-gnu.conf default.conf ||
 #######################################
 #section: ending
 
-apt-get clean
 echo
 echo "##########"
 echo "$0 said: run ok."

@@ -15,6 +15,7 @@ services:
     volumes:
       - ./docker-mount/bankledger:/home/bankledger
       - ./docker-mount/ex-work:/home/ex-work
+      - /tmp/.X11-unix:/tmp/.X11-unix
 #sample only
 #    ports:
 #      - "8081:8081"

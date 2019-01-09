@@ -19,4 +19,9 @@ libqrencode-dev
 curl librsvg2-bin libtiff-tools bsdmainutils cmake imagemagick libcap-dev libz-dev libbz2-dev python-setuptools mingw-w64
 
 ####common utils
-vim tree tzdata locales x11-xserver-utils
+vim tree tzdata locales qt5-default qtcreator
+
+####x11
+x11-xserver-utils
+#language-selector-common
+#language-pack-zh-hans language-pack-zh-hans-base language-pack-gnome-zh-hans language-pack-gnome-zh-hans-base

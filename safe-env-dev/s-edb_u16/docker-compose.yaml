@@ -9,12 +9,13 @@ services:
       maintainer: "danX <chenxd@bankledger.com>"
       version: "2.0.0"
       description: "This is the base develop environment for compiling"
-    image: bankledger/s-edb:2.0.0-u16.04-1
+    image: bankledger/s-edb:2.0.0-u16.04-2
     env_file:
       - ./docker-env.git
     volumes:
       - ./docker-mount/bankledger:/home/bankledger
       - ./docker-mount/ex-work:/home/ex-work
+      - /tmp/.X11-unix:/tmp/.X11-unix
 #sample only
 #    ports:
 #      - "8081:8081"

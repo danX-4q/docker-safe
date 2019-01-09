@@ -9,7 +9,7 @@ services:
       maintainer: "danX <chenxd@bankledger.com>"
       version: "2.0.0"
       description: "This is the develop environment for compiling, deploying and running program bankledger.com/safe:^2.x.y"
-    image: bankledger/s-ed:2.0.0-u16.04-1
+    image: bankledger/s-ed:2.0.0-u16.04-2
     env_file:
       - ./docker-env.git
     volumes:

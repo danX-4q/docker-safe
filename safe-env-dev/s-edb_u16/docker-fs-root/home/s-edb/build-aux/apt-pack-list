@@ -24,5 +24,5 @@ vim tree tzdata locales qt5-default qtcreator
 ####x11
 x11-xserver-utils
 language-pack-zh-hans language-pack-zh-hans-base language-pack-gnome-zh-hans language-pack-gnome-zh-hans-base
-#language-selector-common
-#fcitx fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-frontend-qt4 fcitx-frontend-qt5 fcitx-module-cloudpinyin fcitx-pinyin fcitx-sunpinyin fcitx-table-wubi fcitx-ui-classic fcitx-ui-qimpanel fonts-arphic-ukai fonts-arphic-uming fonts-noto-cjk
+language-selector-common
+fcitx fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-frontend-qt4 fcitx-frontend-qt5 fcitx-module-cloudpinyin fcitx-pinyin fcitx-sunpinyin fcitx-table-wubi fcitx-ui-classic fcitx-ui-qimpanel fonts-arphic-ukai fonts-arphic-uming fonts-noto-cjk

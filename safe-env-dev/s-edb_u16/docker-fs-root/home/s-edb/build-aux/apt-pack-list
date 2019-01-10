@@ -21,6 +21,9 @@ curl librsvg2-bin libtiff-tools bsdmainutils cmake imagemagick libcap-dev libz-d
 ####common utils
 vim tree tzdata locales qt5-default qtcreator
 
+####vscode
+libasound2 gconf-service gconf-service-backend gconf2-common libgconf-2-4 libnspr4 libnss3 libnss3-nssdb libxss1
+
 ####x11
 x11-xserver-utils
 language-pack-zh-hans language-pack-zh-hans-base language-pack-gnome-zh-hans language-pack-gnome-zh-hans-base

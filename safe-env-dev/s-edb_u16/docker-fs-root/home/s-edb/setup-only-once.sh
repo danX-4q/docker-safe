@@ -25,6 +25,16 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 #######################################
 #######################################
 #######################################
+#section: check vscode deb package
+
+VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.30.2-1546901646_amd64.deb"
+[ -f $VSCODE_DEB_FILE ] && 
+[ "1db1e99da33252f633046344cd940fbc" == $(md5sum $VSCODE_DEB_FILE | awk '{print $1}') ] ||
+{ echo "$0 said: code_*.deb error"; exit 1; }
+
+#######################################
+#######################################
+#######################################
 #section: replace os's default sources.list
 
 [ -f /etc/apt/sources.list ] && mv /etc/apt/sources.list /etc/apt/sources.list_os.nouse
@@ -53,8 +63,10 @@ sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 } && 
+apt-get install -y "${VSCODE_DEB_FILE}" &&
 apt -y autoremove && 
-apt-get clean ||
+apt-get clean  && 
+rm -rf "${VSCODE_DEB_FILE}" ||
 { echo "$0 said: error when apt-get install ..."; exit 1; }
 
 #######################################

@@ -13,6 +13,7 @@ then
 	ROOT_DIR=/
 	find ${ROOT_DIR}/home/ | grep  -E '.gitkeep|.gitignore' | xargs rm -rf
 	find ${ROOT_DIR}/home/ -name '*.sh' | xargs chmod +x
+	find ${ROOT_DIR}/usr/local/bin/ | xargs chmod +x
 else
 	ROOT_DIR="${PWD}/"
 	mkdir -p ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||

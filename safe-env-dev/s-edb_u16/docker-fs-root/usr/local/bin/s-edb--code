@@ -1,0 +1,3 @@
+#!/bin/bash
+
+code --user-data-dir=/home/vscode-workspace/

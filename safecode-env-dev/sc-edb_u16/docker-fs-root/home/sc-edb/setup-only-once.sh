@@ -36,6 +36,16 @@ VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.30.2-1546901
 #######################################
 #######################################
 #######################################
+#section: check eos source package
+
+EOS_SOURCE_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos_v1.6.0.zip"
+[ -f $EOS_SOURCE_FILE ] && 
+[ "59e74e79722e25ebda4b7ebdfc434265" == $(md5sum $EOS_SOURCE_FILE | awk '{print $1}') ] ||
+{ echo "$0 said: eos_*.zip error"; exit 1; }
+
+#######################################
+#######################################
+#######################################
 #section: replace os's default sources.list
 
 [ -f /etc/apt/sources.list ] && mv /etc/apt/sources.list /etc/apt/sources.list_os.nouse
@@ -70,11 +80,11 @@ apt-get install -y "${VSCODE_DEB_FILE}" ||
 #######################################
 #######################################
 #######################################
-#section: 
+#section: install eos-build-depends
 
-git clone https://github.com/EOSIO/eos --recursive &&
-cd eos &&
-git checkout v1.6.0 &&
+cd "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/" &&
+unzip eos_v1.6.0.zip &&
+cd eos-1.6.0/ &&
 ./eosio_build.sh &&
 ./eosio_install.sh ||
 { echo "$0 said: error when build from source ..."; exit 1; }
@@ -86,7 +96,8 @@ git checkout v1.6.0 &&
 
 apt -y autoremove && 
 apt-get clean  && 
-rm -rf "${VSCODE_DEB_FILE}" ||
+rm -rf "${VSCODE_DEB_FILE}" &&
+rm -rf "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-1.6.0/" ||
 { echo "$0 said: error when apt clean ..."; exit 1; }
 
 #######################################

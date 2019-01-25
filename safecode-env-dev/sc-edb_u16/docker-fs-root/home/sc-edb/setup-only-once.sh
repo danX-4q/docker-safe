@@ -41,7 +41,7 @@ VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.30.2-1546901
 EOS_VER="v1.6.0"
 EOS_SOURCE_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-${EOS_VER}.zip"
 [ -f $EOS_SOURCE_FILE ] && 
-[ "0637927e6d574e6ad9ac0209a94687b5" == $(md5sum $EOS_SOURCE_FILE | awk '{print $1}') ] ||
+[ "eabd51de88b34e35f719f6f0248444df" == $(md5sum $EOS_SOURCE_FILE | awk '{print $1}') ] ||
 { echo "$0 said: eos-*.zip error"; exit 1; }
 
 #######################################

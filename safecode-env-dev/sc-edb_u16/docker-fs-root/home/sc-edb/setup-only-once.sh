@@ -66,7 +66,7 @@ APT_PACK_LIST_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/apt-pack-list
 
 apt-get update &&
 apt-get install -y software-properties-common &&
-add-apt-repository -y ppa:bitcoin/bitcoin &&
+#add-apt-repository -y ppa:bitcoin/bitcoin &&
 apt-get update &&
 
 { 

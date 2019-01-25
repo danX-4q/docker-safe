@@ -1,6 +1,9 @@
 ####for cmd: add-apt-repository
 software-properties-common
 
+####system
+apt-utils unzip
+
 ####for cmd: git
 git
 

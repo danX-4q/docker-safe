@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  sc-edb:
+    build:
+      context: .
+    labels:
+      author: "danX <chenxd@bankledger.com>"
+      maintainer: "danX <chenxd@bankledger.com>"
+      version: "1.6.0"
+      description: "This is the base develop environment for compiling"
+    image: bankledger/sc-edb:1.6.0-u16.04-1
+    env_file:
+      - ./docker-env.git
+    volumes:
+      - ./docker-mount/bankledger:/home/bankledger
+      - ./docker-mount/ex-work:/home/ex-work
+      - /tmp/.X11-unix:/tmp/.X11-unix
+#sample only
+#    ports:
+#      - "8081:8081"

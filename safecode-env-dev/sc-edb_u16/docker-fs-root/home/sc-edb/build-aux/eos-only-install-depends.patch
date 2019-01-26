@@ -1,0 +1,108 @@
+diff -Nuar eos-v1.6.0-org/eosio_build.sh eos-v1.6.0/eosio_build.sh
+--- eos-v1.6.0-org/eosio_build.sh	2019-01-25 19:16:46.000000000 +0800
++++ eos-v1.6.0/eosio_build.sh	2019-01-26 18:17:48.263558785 +0800
+@@ -236,6 +236,7 @@
+       exit -1
+    fi
+ 
++   EOS_BUILD_DEPS_DIR="${PWD}/../eos-build-depends/"
+    . "$FILE"
+ 
+    printf "\\n\\n>>>>>>>> ALL dependencies successfully found or installed . Installing EOSIO\\n\\n"
+@@ -243,6 +244,8 @@
+    printf ">>>>>>>> ENABLE_COVERAGE_TESTING=%s\\n" "${ENABLE_COVERAGE_TESTING}"
+    printf ">>>>>>>> DOXYGEN=%s\\n\\n" "${DOXYGEN}"
+ 
++   exit 0 #do not really build eosio
++
+    if [ ! -d "${BUILD_DIR}" ]; then
+       if ! mkdir -p "${BUILD_DIR}"
+       then
+diff -Nuar eos-v1.6.0-org/scripts/eosio_build_ubuntu.sh eos-v1.6.0/scripts/eosio_build_ubuntu.sh
+--- eos-v1.6.0-org/scripts/eosio_build_ubuntu.sh	2019-01-25 19:16:46.000000000 +0800
++++ eos-v1.6.0/scripts/eosio_build_ubuntu.sh	2019-01-26 18:19:10.868935590 +0800
+@@ -24,8 +24,8 @@
+ 	printf "\\tDisk space total: %sG\\n" "${DISK_TOTAL%.*}"
+ 	printf "\\tDisk space available: %sG\\n" "${DISK_AVAIL%.*}"
+ 
+-	if [ "${MEM_MEG}" -lt 7000 ]; then
+-		printf "\\tYour system must have 7 or more Gigabytes of physical memory installed.\\n"
++	if [ "${MEM_MEG}" -lt 4096 ]; then
++		printf "\\tYour system must have 4 or more Gigabytes of physical memory installed.\\n"
+ 		printf "\\tExiting now.\\n"
+ 		exit 1
+ 	fi
+@@ -148,12 +148,16 @@
+ 			printf "\\n\\tExiting now.\\n\\n"
+ 			exit 1;
+ 		fi
+-		STATUS=$(curl -LO -w '%{http_code}' --connect-timeout 30 https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.bz2)
+-		if [ "${STATUS}" -ne 200 ]; then
+-			printf "\\tUnable to download Boost libraries at this time.\\n"
+-			printf "\\tExiting now.\\n\\n"
+-			exit 1;
+-		fi
++
++		mv "${EOS_BUILD_DEPS_DIR}boost_1_67_0.tar.bz2" ${TEMP_DIR}/ ||
++		{
++			STATUS=$(curl -LO -w '%{http_code}' --connect-timeout 30 https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.bz2)
++			if [ "${STATUS}" -ne 200 ]; then
++				printf "\\tUnable to download Boost libraries at this time.\\n"
++				printf "\\tExiting now.\\n\\n"
++				exit 1;
++			fi
++		}
+ 		if ! tar xf "${TEMP_DIR}/boost_1_67_0.tar.bz2"
+ 		then
+ 			printf "\\n\\tUnable to unarchive file %s/boost_1_67_0.tar.bz2.\\n" "${TEMP_DIR}"
+@@ -212,12 +216,15 @@
+ 			printf "\\n\\tExiting now.\\n\\n"
+ 			exit 1;
+ 		fi
+-		STATUS=$(curl -LO -w '%{http_code}' --connect-timeout 30 https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.3.tgz)
+-		if [ "${STATUS}" -ne 200 ]; then
+-			printf "\\tUnable to download MongoDB at this time.\\n"
+-			printf "\\n\\tExiting now.\\n\\n"
+-			exit 1;
+-		fi
++		mv "${EOS_BUILD_DEPS_DIR}mongodb-linux-x86_64-3.6.3.tgz" ${HOME}/opt/ ||
++		{
++			STATUS=$(curl -LO -w '%{http_code}' --connect-timeout 30 https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.3.tgz)
++			if [ "${STATUS}" -ne 200 ]; then
++				printf "\\tUnable to download MongoDB at this time.\\n"
++				printf "\\n\\tExiting now.\\n\\n"
++				exit 1;
++			fi
++		}
+ 		if ! tar xf "${HOME}/opt/mongodb-linux-x86_64-3.6.3.tgz"
+ 		then
+ 			printf "\\tUnable to unarchive file %s/opt/mongodb-linux-x86_64-3.6.3.tgz.\\n" "${HOME}"
+@@ -303,16 +310,19 @@
+ 			printf "\\tExiting now.\\n\\n"
+ 			exit 1;
+ 		fi
+-		STATUS=$( curl -LO -w '%{http_code}' --connect-timeout 30 https://github.com/mongodb/mongo-c-driver/releases/download/1.10.2/mongo-c-driver-1.10.2.tar.gz )
+-		if [ "${STATUS}" -ne 200 ]; then
+-			if ! rm -f "${TEMP_DIR}/mongo-c-driver-1.10.2.tar.gz"
+-			then
+-				printf "\\tUnable to remove file %s/mongo-c-driver-1.10.2.tar.gz.\\n" "${TEMP_DIR}"
++		mv "${EOS_BUILD_DEPS_DIR}mongo-c-driver-1.10.2.tar.gz" "${TEMP_DIR}/" ||
++		{
++			STATUS=$( curl -LO -w '%{http_code}' --connect-timeout 30 https://github.com/mongodb/mongo-c-driver/releases/download/1.10.2/mongo-c-driver-1.10.2.tar.gz )
++			if [ "${STATUS}" -ne 200 ]; then
++				if ! rm -f "${TEMP_DIR}/mongo-c-driver-1.10.2.tar.gz"
++				then
++					printf "\\tUnable to remove file %s/mongo-c-driver-1.10.2.tar.gz.\\n" "${TEMP_DIR}"
++				fi
++				printf "\\tUnable to download MongoDB C driver at this time.\\n"
++				printf "\\tExiting now.\\n\\n"
++				exit 1;
+ 			fi
+-			printf "\\tUnable to download MongoDB C driver at this time.\\n"
+-			printf "\\tExiting now.\\n\\n"
+-			exit 1;
+-		fi
++		}
+ 		if ! tar xf mongo-c-driver-1.10.2.tar.gz
+ 		then
+ 			printf "\\tUnable to unarchive file %s/mongo-c-driver-1.10.2.tar.gz.\\n" "${TEMP_DIR}"

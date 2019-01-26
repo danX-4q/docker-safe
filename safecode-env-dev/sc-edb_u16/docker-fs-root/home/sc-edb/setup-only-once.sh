@@ -87,7 +87,7 @@ cd "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/" &&
 unzip eos-${EOS_VER}.zip &&
 cd eos-${EOS_VER}/ &&
 patch -p1 < ../reduce-memory-requirement-to-4G.patch &&
-./eosio_build.sh &&
+echo 1 | ./eosio_build.sh &&
 ./eosio_install.sh ||
 { echo "$0 said: error when build eos from source ..."; exit 1; }
 

@@ -36,6 +36,26 @@ VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.30.2-1546901
 #######################################
 #######################################
 #######################################
+#section: check eos-build-depends-packages
+
+EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/boost_1_67_0.tar.bz2"
+[ -f $EBD_FILE ] && 
+[ "ced776cb19428ab8488774e1415535ab" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
+{ echo "$0 said: $EBD_FILE error"; exit 1; }
+
+EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongodb-linux-x86_64-3.6.3.tgz"
+[ -f $EBD_FILE ] && 
+[ "fe803e2243aff20a634d5aa711705e82" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
+{ echo "$0 said: $EBD_FILE error"; exit 1; }
+
+EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongo-c-driver-1.10.2.tar.gz"
+[ -f $EBD_FILE ] && 
+[ "09f9d2b48fa24e47f9e608d290976766" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
+{ echo "$0 said: $EBD_FILE error"; exit 1; }
+
+#######################################
+#######################################
+#######################################
 #section: check eos source package
 
 EOS_VER="v1.6.0"
@@ -86,7 +106,7 @@ apt-get install -y "${VSCODE_DEB_FILE}" ||
 cd "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/" &&
 unzip eos-${EOS_VER}.zip &&
 cd eos-${EOS_VER}/ &&
-patch -p1 < ../reduce-memory-requirement-to-4G.patch &&
+patch -p1 < ../eos-only-install-depends.patch &&
 echo 1 | ./eosio_build.sh &&
 ./eosio_install.sh ||
 { echo "$0 said: error when build eos from source ..."; exit 1; }

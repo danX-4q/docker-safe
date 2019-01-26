@@ -61,7 +61,7 @@ EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongo-c-
 EOS_VER="v1.6.0"
 EOS_SOURCE_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-${EOS_VER}.zip"
 [ -f $EOS_SOURCE_FILE ] && 
-[ "eabd51de88b34e35f719f6f0248444df" == $(md5sum $EOS_SOURCE_FILE | awk '{print $1}') ] ||
+[ "50ceece5d97371e5c74fcead25b6a6ff" == $(md5sum $EOS_SOURCE_FILE | awk '{print $1}') ] ||
 { echo "$0 said: eos-*.zip error"; exit 1; }
 
 #######################################

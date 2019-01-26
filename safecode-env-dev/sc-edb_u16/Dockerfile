@@ -10,9 +10,8 @@ FROM ubuntu:16.04
 ADD ./docker-fs-root/ /
 WORKDIR /home/sc-edb/
 
-ENV DEBIAN_FRONTEND noninteractive
-RUN chmod +x setup-only-once.sh && \
-    DOCKER_ONBUILD=true ./setup-only-once.sh
+ENV DEBIAN_FRONTEND=noninteractive DOCKER_ONBUILD=true
+RUN chmod +x setup-only-once.sh && ./setup-only-once.sh
 
 RUN echo "Asia/Shanghai" > /etc/timezone && \
     dpkg-reconfigure -f noninteractive tzdata && \

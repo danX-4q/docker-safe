@@ -10,6 +10,8 @@ services:
       version: "1.6.0"
       description: "This is the base develop environment for compiling"
     image: bankledger/sc-edb:1.6.0-u16.04-1
+    cap_add:
+      - ALL
     env_file:
       - ./docker-env.git
     volumes:

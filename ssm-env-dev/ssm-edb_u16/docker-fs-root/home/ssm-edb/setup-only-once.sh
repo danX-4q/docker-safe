@@ -84,6 +84,15 @@ apt-get update && apt-get install -y yarn=1.16.0-1 ||
 #######################################
 #######################################
 #######################################
+#section: install cnpm
+
+npm install -g cnpm --registry=https://registry.npm.taobao.org &&
+cnpm -v ||
+{ echo "$0 said: error when install cnpm ..."; exit 1; }
+
+#######################################
+#######################################
+#######################################
 #section: 
 
 apt -y autoremove && 

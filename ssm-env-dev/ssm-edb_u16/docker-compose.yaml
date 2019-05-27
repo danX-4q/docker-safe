@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  ssm-edb:
+    build:
+      context: .
+    labels:
+      author: "danX <chenxd@bankledger.com>"
+      maintainer: "danX <chenxd@bankledger.com>"
+      version: "10.15.3"
+      description: "This is the base develop environment for nodejs 10.15.3LTS"
+    image: bankledger/ssm-edb:10.15.3-u16.04-1
+    cap_add:
+      - ALL
+    env_file:
+      - ./docker-env.git
+    volumes:
+      - ./docker-mount/bankledger:/home/bankledger
+      - ./docker-mount/ex-work:/home/ex-work
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    ports:
+      - "7001:7001"

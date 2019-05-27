@@ -3,7 +3,7 @@
 #Digest: sha256:cad5e101ab30bb7f7698b277dd49090f520fe063335643990ce8fbd15ff920ef
 #Status: Image is up to date for ubuntu:16.04
 
-FROM ubuntu@cad5e101ab30bb7f7698b277dd49090f520fe063335643990ce8fbd15ff920ef
+FROM ubuntu@sha256:cad5e101ab30bb7f7698b277dd49090f520fe063335643990ce8fbd15ff920ef
 
 ADD ./docker-fs-root/ /
 WORKDIR /home/ssm-edb/

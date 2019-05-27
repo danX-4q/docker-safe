@@ -7,9 +7,9 @@ services:
     labels:
       author: "danX <chenxd@bankledger.com>"
       maintainer: "danX <chenxd@bankledger.com>"
-      version: "10.15.3"
-      description: "This is the base develop environment for nodejs 10.15.3LTS"
-    image: bankledger/ssm-edb:10.15.3-u16.04-1
+      version: "10.15"
+      description: "This is the safe<->safecode middleman develop environment based on nodejs 10.15.x LTS"
+    image: bankledger/ssm-edb:10.15-u16.04-1
     cap_add:
       - ALL
     env_file:

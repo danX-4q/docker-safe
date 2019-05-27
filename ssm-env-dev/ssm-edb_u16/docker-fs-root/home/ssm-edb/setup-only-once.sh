@@ -74,7 +74,11 @@ apt-get install -y "${VSCODE_DEB_FILE}" ||
 #section: install node 10.x LTS
 
 curl -sL https://deb.nodesource.com/setup_10.x | bash - &&
-apt-get install -y nodejs-10.15.3-1nodesource1 ||
+apt-get install -y nodejs=10.15.3-1nodesource1 &&
+apt-get install gcc g++ make &&
+curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && 
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&
+apt-get update && apt-get install yarn=1.16.0-1 ||
 { echo "$0 said: error when install nodejs ..."; exit 1; }
 
 #######################################

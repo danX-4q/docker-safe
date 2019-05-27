@@ -67,6 +67,16 @@ sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 apt-get install -y "${VSCODE_DEB_FILE}" ||
 { echo "$0 said: error when apt-get install ..."; exit 1; }
 
+
+#######################################
+#######################################
+#######################################
+#section: install node 10.x LTS
+
+curl -sL https://deb.nodesource.com/setup_10.x | bash - &&
+apt-get install -y nodejs-10.15.3-1nodesource1 ||
+{ echo "$0 said: error when install nodejs ..."; exit 1; }
+
 #######################################
 #######################################
 #######################################

@@ -8,7 +8,7 @@ apt-utils unzip sudo
 git
 
 ####common utils
-vim tree tzdata locales
+vim tree tzdata locales curl
 
 ####vscode
 libasound2 gconf-service gconf-service-backend gconf2-common libgconf-2-4 libnspr4 libnss3 libnss3-nssdb libxss1

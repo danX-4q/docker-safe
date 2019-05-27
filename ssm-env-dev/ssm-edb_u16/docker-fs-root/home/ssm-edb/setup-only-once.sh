@@ -67,6 +67,16 @@ sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 apt-get install -y "${VSCODE_DEB_FILE}" ||
 { echo "$0 said: error when apt-get install ..."; exit 1; }
 
+#######################################
+#######################################
+#######################################
+#section: install vscode extensions
+
+ssm-edb--code --install-extension MS-CEINTL.vscode-language-pack-zh-hans
+ssm-edb--code --install-extension atian25.eggjs
+ssm-edb--code --install-extension yuzukwok.eggjs-dev-tools
+ssm-edb--code --install-extension alefragnani.Bookmarks
+ssm-edb--code --install-extension eamodio.gitlens
 
 #######################################
 #######################################

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd /usr/local/bin/
+. sc-et.conf
+
+cd /home/bankledger/eosio.contracts/
+./build.sh
+cd ./build
+scp -r eosio.* safe.* sc.* root@"${SC_ET__HOST}":"${SC_ET__DIR}"

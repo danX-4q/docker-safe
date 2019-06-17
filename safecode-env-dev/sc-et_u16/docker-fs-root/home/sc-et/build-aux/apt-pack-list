@@ -1,0 +1,11 @@
+####for cmd: add-apt-repository
+software-properties-common
+
+####system
+apt-utils unzip sudo
+
+####for cmd: git
+git
+
+####common utils
+vim tree tzdata locales

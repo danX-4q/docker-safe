@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  sc-et:
+    build:
+      context: .
+    labels:
+      author: "danX <chenxd@bankledger.com>"
+      maintainer: "danX <chenxd@bankledger.com>"
+      version: "1.6.0"
+      description: "This is the testing environment for running safecode by installing binary packages"
+    image: bankledger/sc-et:1.6.0-u16.04-1
+    cap_add:
+      - ALL
+    env_file:
+      - ./docker-env.git
+    volumes:
+      - ./docker-mount/bankledger:/home/bankledger
+      - ./docker-mount/ex-work:/home/ex-work
+
+    ports:
+      - "7770:7770"
+      - "5550:5550"
+      - "7771:7771"
+      - "5551:5551"

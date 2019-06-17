@@ -10,11 +10,15 @@ cd $NM
 cd -
 
 ##########
-cd ${CONTRACTS_DIR}sc.eosio.token/
+cd ${CONTRACTS_DIR}
+./build.sh || { echo "error when build eosio.contracts"; exit 1; }
+
+##########
+cd ${CONTRACTS_DIR}build/sc.eosio.token/
 cleos-sc set contract eosio.token ${PWD} eosio.token.wasm eosio.token.abi || { echo "error when set eosio.token"; exit 1; }
 
 ##########
-cd ${CONTRACTS_DIR}safe.oracle/
+cd ${CONTRACTS_DIR}build/safe.oracle/
 cleos-sc set contract safe.oracle ${PWD} || { echo "error when set safe.oracle"; exit 1; }
 
 ##########
@@ -33,4 +37,3 @@ cleos-sc set account permission eosio crosschain \
 cleos-sc set action permission eosio.token eosio.token castcreate crosschain -p eosio.token@active
 cleos-sc set action permission eosio eosio.token castissue crosschain -p eosio@active
 cleos-sc set action permission eosio eosio.token casttransfer crosschain -p eosio@active
-

@@ -9,20 +9,23 @@ cd $NM
 . eosio.env
 cd -
 
+##########
+cd ${CONTRACTS_DIR}
+./build.sh || { echo "error when build eosio.contracts"; exit 1; }
 
 ##########
-cd ${CONTRACTS_DIR}eosio.bios/
+cd ${CONTRACTS_DIR}build/eosio.bios/
 cleos-sc set contract eosio ${PWD} || { echo "error when set eosio.bios"; exit 1; }
 
 ##########
 cleos-sc create account eosio eosio.token $K0_PUB
-cd ${CONTRACTS_DIR}eosio.token/
+cd ${CONTRACTS_DIR}build/eosio.token/
 cleos-sc set contract eosio.token ${PWD} || { echo "error when set eosio.token"; exit 1; }
 cleos-sc push action eosio.token create '["eosio","4500000.00000000 SAFE"]' -p eosio.token@active
 
 ##########
 cleos-sc create account eosio safe.oracle $K0_PUB
-cd ${CONTRACTS_DIR}safe.oracle/
+cd ${CONTRACTS_DIR}build/safe.oracle/
 cleos-sc set contract safe.oracle ${PWD} || { echo "error when set safe.oracle"; exit 1; }
 
 ##########

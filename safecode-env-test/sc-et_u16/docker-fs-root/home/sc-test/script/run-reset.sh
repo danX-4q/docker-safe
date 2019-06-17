@@ -2,7 +2,7 @@
 
 set -x
 
-NM=${1-"a"}
+NM=${3-"a"}
 CUR_PWD="$PWD"
 
 cd $NM
@@ -11,8 +11,8 @@ cd -
 
 ##########
 
-BLKNUM=$2
-TXINDEX=$3
+BLKNUM=$1
+TXINDEX=$2
 
 cleos-sc push action safe.oracle reset "[[${BLKNUM},${TXINDEX}]]" -p safe.oracle
 cleos-sc get table -r -l 1 safe.oracle safe.oracle globalkv

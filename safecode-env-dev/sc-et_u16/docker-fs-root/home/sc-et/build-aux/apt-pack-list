@@ -8,4 +8,4 @@ apt-utils unzip sudo
 git
 
 ####common utils
-vim tree tzdata locales
+curl vim tree tzdata locales

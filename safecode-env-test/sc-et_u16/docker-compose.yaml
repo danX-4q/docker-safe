@@ -15,11 +15,12 @@ services:
     env_file:
       - ./docker-env.git
     volumes:
-      #git project valid at CONTAINER:/home/bankledger/eosio.contracts/
+      #optional
       - ./docker-mount/bankledger:/home/bankledger
       #optional
       - ./docker-mount/ex-work:/home/ex-work
-      #eosio*.deb valid at CONTAINER:/home/sc-test/binfile
+      #deb, contracts valid at CONTAINER:/home/sc-test/binfile
+      #contracts path: ...binfile/eosio.contracts/name/name.{abi,wsm}
       - ./docker-mount/sc-test/binfile:/home/sc-test/binfile
 
     ports:

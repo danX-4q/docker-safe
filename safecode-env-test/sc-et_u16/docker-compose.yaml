@@ -17,6 +17,7 @@ services:
     volumes:
       - ./docker-mount/bankledger:/home/bankledger
       - ./docker-mount/ex-work:/home/ex-work
+      - ./docker-mount/sc-test/binfile:/home/sc-test/binfile
 
     ports:
       - "7770:7770"

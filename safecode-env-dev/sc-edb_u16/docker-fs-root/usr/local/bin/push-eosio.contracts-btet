@@ -3,7 +3,9 @@
 cd /usr/local/bin/
 . sc-et.conf
 
+ssh root@"${SC_ET__HOST}" "mkdir -p ${SC_ET__DIR}eosio.contracts/"
+
 cd /home/bankledger/eosio.contracts/
 ./build.sh
 cd ./build
-scp -r eosio.* safe.* sc.* root@"${SC_ET__HOST}":"${SC_ET__DIR}"
+scp -r eosio.* safe.* sc.* root@"${SC_ET__HOST}":"${SC_ET__DIR}eosio.contracts/"

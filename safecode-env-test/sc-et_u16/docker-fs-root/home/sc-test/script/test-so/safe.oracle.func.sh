@@ -7,7 +7,7 @@ function __parm_to_obj__chainpos()
     block_num=$1
     tx_index=$2
 
-    echo "{'block_num':${block_num},'tx_index':${tx_index}}"
+    echo '{"block_num":'${block_num}',"tx_index":'${tx_index}'}'
 }
 
 function __parm_to_obj__tx()
@@ -18,7 +18,7 @@ function __parm_to_obj__tx()
     quantity=$4
     token=$5
 
-    echo "{'type':0,'account':'${account}','txid':'${txid}','outidx':${outidx},'quantity':'${quantity} ${token}','detail':'nothing'}"
+    echo '{"type":0,"account":"'${account}'","txid":"'${txid}'","outidx":'${outidx}',"quantity":"'${quantity}'" "'${token}'","detail":"nothing"}'
 }
 
 
@@ -28,6 +28,11 @@ function __parm_to_obj__tx()
 function so__show_globalkv()
 {
     cleos-sc get table -r -l 1 safe.oracle safe.oracle globalkv
+}
+
+function so__show_cctx()
+{
+    cleos-sc get table -r -l 5 safe.oracle global cctx
 }
 
 function so__reset()
@@ -61,7 +66,7 @@ function so__push0cctx()
     npos_obj=$(__parm_to_obj__chainpos $npos)  #do not use "$x"
 
     cleos-sc push action safe.oracle pushcctxes \
-        "{'curpos':${cpos_obj},'nextpos':${npos_obj},'cctxes':[]}" -p safe.oracle
+        '{"curpos":'${cpos_obj}',"nextpos":'${npos_obj}',"cctxes":[]}' -p safe.oracle
     echo "safe.oracle::pushcctxes result: $?"
 }
 
@@ -79,6 +84,6 @@ function so__push2cctx()
     tx2_obj=$(__parm_to_obj__tx $tx2)           #do not use "$x"
 
     cleos-sc push action safe.oracle pushcctxes \
-        "{'curpos':${curpos_obj},'nextpos':${nextpos_obj},'cctxes':[${tx1_obj},${tx2_obj}]}" -p safe.oracle
+        "{'curpos':${cpos_obj},'nextpos':${npos_obj},'cctxes':[${tx1_obj},${tx2_obj}]}" -p safe.oracle
     echo "safe.oracle::pushcctxes result: $?"
 }

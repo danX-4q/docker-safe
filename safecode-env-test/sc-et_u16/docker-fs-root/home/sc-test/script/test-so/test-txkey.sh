@@ -30,14 +30,16 @@ echo '================================='
 #expr: exception
 TXID1=$(get_txid)
 
-cleos-sc push action safe.oracle pushcctxes '{"curpos":{"block_num":5453,"tx_index":0},"nextpos":{"block_num":5454,"tx_index":2},"cctxes":[{"type":0,"account":"danx1","txid":"'${TXID1}'","outidx":0,"quantity":"5453.10000000 SAFE","detail":"nothing"},{"type":0,"account":"danx2","txid":"'${TXID1}'","outidx":0,"quantity":"5453.20000000 SAFE","detail":"nothing"}]}' -p safe.oracle
-echo "action result: $?"
-cleos-sc get table -r -l 1 safe.oracle safe.oracle globalkv
-echo 'action: same txkey exception; table: 5453 + 0'
-cleos-sc get table -r -l 5 safe.oracle global cctx
-echo "${TXID1}-0"
-echo '================================='
+so__push2cctx "5453 0" "5454 2" \
+    "danx1 ${TXID1} 0 5453.10000000 SAFE" \
+    "danx2 ${TXID1} 0 5453.20000000 SAFE"
+so__show_globalkv
 
+echo 'action: same txkey exception; table: 5453 + 0'
+so__show_cctx
+#echo "${TXID1}-0"
+echo '================================='
+exit 0
 #expr: success
 TXID2=$(get_next_txid $TXID1)
 TXID3=$(get_next_txid $TXID2)

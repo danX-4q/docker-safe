@@ -28,25 +28,25 @@ echo 'action: done; table: 5453 + 0'
 echo '================================='
 
 #exp: failed
-so__push0cctx 5453 0 5453 0
+so__push0cctx "5453 0" "5453 0"
 so__show_globalkv
 echo 'action: exception; table: 5453 + 0'
 echo '================================='
 
 #exp: success
-so__push0cctx 5453 0 5453 1
+so__push0cctx "5453 0" "5453 1"
 so__show_globalkv
 echo 'action: done; table: 5453 + 1'
 echo '================================='
 
 #exp: failed
-so__push0cctx 5453 0 5453 2
+so__push0cctx "5453 0" "5453 2"
 so__show_globalkv
 echo 'action: exception; table: 5453 + 1'
 echo '================================='
 
 #exp: success
-so__push0cctx 5453 1 5453 3
+so__push0cctx "5453 1" "5453 3"
 so__show_globalkv
 echo 'action: done; table: 5453 + 3'
 echo '================================='

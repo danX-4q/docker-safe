@@ -145,8 +145,8 @@ function so__draw2asset()
     local txk2="$2"
     local account="$3"
     local txk1_obj=$(__parm_to_obj__txkey $txk1)    #do not use "$x"
-    local txk1_ob2=$(__parm_to_obj__txkey $txk2)    #do not use "$x"
+    local txk2_obj=$(__parm_to_obj__txkey $txk2)    #do not use "$x"
 
     cleos-sc push action safe.oracle drawassets \
-        '[['${txk1_obj}','${txk1_obj}']]' -p ${account}
+        '[['${txk1_obj}','${txk2_obj}']]' -p ${account}
 }

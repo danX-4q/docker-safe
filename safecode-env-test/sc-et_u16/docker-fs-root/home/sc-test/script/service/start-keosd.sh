@@ -18,4 +18,6 @@ cd $N_C_DIR
 . eosio.conf
 cd -
 
+##############################
+
 keosd -c ${KEOSD_C_DIR}config.ini -d ${KEOSD_D_DIR} &

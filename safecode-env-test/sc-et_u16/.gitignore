@@ -2,3 +2,4 @@ docker-fs-root/home/bankledger/eos
 docker-fs-root/home/bankledger/eosio.cdt
 docker-fs-root/home/bankledger/eosio.contracts
 docker-fs-root/home/sc-test/script/node/a/keosd/data/wallet.lock
+docker-fs-root/home/sc-test/node-data/a/nodeos/data/

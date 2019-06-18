@@ -1,0 +1,43 @@
+#!/bin/bash
+
+cd /usr/local/bin/
+. sc-et.conf
+
+####
+
+cd "${SC_ET__DIR}eosio.contracts/"
+./build.sh
+cd ./build
+
+####
+
+DIR="${SC_ET__DIR}eosio.contracts/build/"
+
+function push_to_et()
+{
+    pdir="${DIR}$1"
+    ssh root@"${SC_ET__HOST}" "mkdir -p ${pdir}"
+    cd "${pdir}" > /dev/null 2&>1
+    scp -r *.abi *.wasm root@"${SC_ET__HOST}":"${pdir}"
+}
+
+#eosio.bios
+push_to_et "eosio.bios/"
+
+#eosio.system
+push_to_et "eosio.system/"
+
+#eosio.wrap
+push_to_et "eosio.wrap/"
+
+#safe.oracle
+push_to_et "safe.oracle/"
+
+#eosio.msig
+push_to_et "eosio.msig/"
+
+#eosio.token
+push_to_et "eosio.token/"
+
+#sc.eosio.token
+push_to_et "sc.eosio.token/"

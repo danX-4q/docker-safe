@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd /usr/local/bin/
+. sc-et.conf
+
+DIR="${SC_ET__DIR}eosio.cdt/build/packages/"
+
+ssh root@"${SC_ET__HOST}" "mkdir -p ${DIR}"
+
+cd ${DIR}
+scp eosio.cdt-*.deb root@"${SC_ET__HOST}":"${DIR}"

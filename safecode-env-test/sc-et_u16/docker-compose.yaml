@@ -8,25 +8,23 @@ services:
       author: "danX <chenxd@bankledger.com>"
       maintainer: "danX <chenxd@bankledger.com>"
       version: "1.6.0"
-      description: "This is the testing environment for running safecode, including eosio(deb), eosio.cdt(deb), eosio.contracts(source)."
+      description: "This is the testing environment for running safecode, including eosio(deb), eosio.cdt(deb), eosio.contracts(abi,wasm)."
     image: bankledger/sc-et:1.6.0-u16.04-1
     cap_add:
       - ALL
     env_file:
       - ./docker-env.git
     volumes:
-      #optional
+      #paths valid at CONTAINER: eos/build/, eosio.cdt/build/, eosio.contracts/build/
+      #which are part of source code tree valid at sc-edb
       - ./docker-mount/bankledger:/home/bankledger
       #optional
       - ./docker-mount/ex-work:/home/ex-work
-      #deb, contracts valid at CONTAINER:/home/sc-test/binfile
-      #contracts path: ...binfile/eosio.contracts/name/name.{abi,wsm}
-      - ./docker-mount/sc-test/binfile:/home/sc-test/binfile
 
     ports:
       #node a[default]
       - "7770:7770"
       - "5550:5550"
-      #node b
+      #node b[optional, reserved]
       - "7771:7771"
       - "5551:5551"

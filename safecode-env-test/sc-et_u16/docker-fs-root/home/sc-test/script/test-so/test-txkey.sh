@@ -22,15 +22,16 @@ cd -
 
 ##############################
 
-so__reset 5453 0
-so__show_globalkv
-echo 'action: done; table: 5453 + 0'
-echo '================================='
-
 TXID1=$(get_txid)
 TXID2=$(get_next_txid $TXID1)
 TXID3=$(get_next_txid $TXID2)
 TXID4=$(get_next_txid $TXID3)
+
+#reset
+so__reset 5453 0
+so__show_globalkv
+echo 'action: done; table: 5453 + 0'
+echo '================================='
 
 #expr: exception
 so__push2cctx "5453 0" "5454 2" \

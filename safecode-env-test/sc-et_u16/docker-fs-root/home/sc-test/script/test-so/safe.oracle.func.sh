@@ -4,26 +4,60 @@
 
 function __parm_to_obj__chainpos()
 {
-    block_num=$1
-    tx_index=$2
+    local block_num=$1
+    local tx_index=$2
 
     echo '{"block_num":'${block_num}',"tx_index":'${tx_index}'}'
 }
 
 function __parm_to_obj__tx()
 {
-    account=$1
-    txid=$2
-    outidx=$3
-    quantity=$4
-    token=$5
-
-    echo '{"type":0,"account":"'${account}'","txid":"'${txid}'","outidx":'${outidx}',"quantity":"'${quantity}'" "'${token}'","detail":"nothing"}'
+    local account=$1
+    local txid=$2
+    local outidx=$3
+    local quantity=$4
+    local token=$5
+    
+    local asset="$4 $5"
+    echo '{"type":0,"account":"'${account}'","txid":"'${txid}'","outidx":'${outidx}',"quantity":"'${asset}'","detail":"nothing"}'
 }
 
+function __parm_to_obj__txkey()
+{
+    local txid=$1
+    local outidx=$2
 
+    echo '["'${txid}'",'${outidx}']'
+}
 
 ##############################
+
+function get_txid()
+{
+    local txid=$(date | sha256sum | awk '{print $1}')
+    echo "${txid}"
+}
+
+function get_next_txid()
+{
+    local txid=$1
+    local new_txid=$(echo $txid | sha256sum | awk '{print $1}')
+    echo "${new_txid}"
+}
+
+##############################
+
+function show_currency_stats()
+{
+    local token=$1
+    cleos-sc get currency stats eosio.token $token
+}
+
+function show_currency_balance()
+{
+    local account=$1
+    cleos-sc get currency balance eosio.token $account
+}
 
 function so__show_globalkv()
 {
@@ -35,55 +69,84 @@ function so__show_cctx()
     cleos-sc get table -r -l 5 safe.oracle global cctx
 }
 
+##############################
+
 function so__reset()
 {
-    block_num=$1
-    tx_index=$2
+    local block_num=$1
+    local tx_index=$2
 
     cleos-sc push action safe.oracle reset "[[${block_num},${tx_index}]]" -p safe.oracle
     echo "safe.oracle::reset result: $?"
 }
 
-function get_txid()
-{
-    txid=$(date | sha256sum | awk '{print $1}')
-    echo "${txid}"
-}
-
-function get_next_txid()
-{
-    txid=$1
-    new_txid=$(echo $txid | sha256sum | awk '{print $1}')
-    echo "${new_txid}"
-}
-
 function so__push0cctx()
 {
-    cpos="$1"
-    npos="$2"
+    local cpos="$1"
+    local npos="$2"
 
-    cpos_obj=$(__parm_to_obj__chainpos $cpos)  #do not use "$x"
-    npos_obj=$(__parm_to_obj__chainpos $npos)  #do not use "$x"
+    local cpos_obj=$(__parm_to_obj__chainpos $cpos)  #do not use "$x"
+    local npos_obj=$(__parm_to_obj__chainpos $npos)  #do not use "$x"
 
     cleos-sc push action safe.oracle pushcctxes \
         '{"curpos":'${cpos_obj}',"nextpos":'${npos_obj}',"cctxes":[]}' -p safe.oracle
     echo "safe.oracle::pushcctxes result: $?"
 }
 
-#$3: "danx1 ${TXID1} 0 5453.10000000 SAFE"
+function so__push1cctx()
+{
+    local cpos="$1"
+    local npos="$2"
+    local tx1="$3"
+
+    local cpos_obj=$(__parm_to_obj__chainpos $cpos) #do not use "$x"
+    local npos_obj=$(__parm_to_obj__chainpos $npos) #do not use "$x"
+    local tx1_obj=$(__parm_to_obj__tx $tx1)         #do not use "$x"
+
+    #do use "${tx1_obj}"!!!
+    cleos-sc push action safe.oracle pushcctxes \
+        '{"curpos":'${cpos_obj}',"nextpos":'${npos_obj}',"cctxes":['"${tx1_obj}"']}' \
+        -p safe.oracle
+    echo "safe.oracle::pushcctxes result: $?"
+}
+
 function so__push2cctx()
 {
-    cpos="$1"
-    npos="$2"
-    tx1="$3"
-    tx2="$4"
+    local cpos="$1"
+    local npos="$2"
+    local tx1="$3"      #caller use: "danx1 ${TXID1} 0 5453.10000000 SAFE"
+    local tx2="$4"      #caller use: "danx1 ${TXID1} 0 5453.10000000 SAFE"
 
-    cpos_obj=$(__parm_to_obj__chainpos $cpos)   #do not use "$x"
-    npos_obj=$(__parm_to_obj__chainpos $npos)   #do not use "$x"
-    tx1_obj=$(__parm_to_obj__tx $tx1)           #do not use "$x"
-    tx2_obj=$(__parm_to_obj__tx $tx2)           #do not use "$x"
+    local cpos_obj=$(__parm_to_obj__chainpos $cpos) #do not use "$x"
+    local npos_obj=$(__parm_to_obj__chainpos $npos) #do not use "$x"
+    local tx1_obj=$(__parm_to_obj__tx $tx1)         #do not use "$x"
+    local tx2_obj=$(__parm_to_obj__tx $tx2)         #do not use "$x"
 
+    #do use "${tx1_obj}" and "${tx2_obj}"!!!
     cleos-sc push action safe.oracle pushcctxes \
-        "{'curpos':${cpos_obj},'nextpos':${npos_obj},'cctxes':[${tx1_obj},${tx2_obj}]}" -p safe.oracle
+        '{"curpos":'${cpos_obj}',"nextpos":'${npos_obj}',"cctxes":['"${tx1_obj}"','"${tx2_obj}"']}' \
+        -p safe.oracle
     echo "safe.oracle::pushcctxes result: $?"
+}
+
+function so__draw1asset()
+{
+    local txk1="$1"
+    local account="$2"
+    local txk1_obj=$(__parm_to_obj__txkey $txk1)    #do not use "$x"
+
+    cleos-sc push action safe.oracle drawassets \
+        '[['${txk1_obj}']]' -p ${account}
+}
+
+function so__draw2asset()
+{
+    local txk1="$1"
+    local txk2="$2"
+    local account="$3"
+    local txk1_obj=$(__parm_to_obj__txkey $txk1)    #do not use "$x"
+    local txk1_ob2=$(__parm_to_obj__txkey $txk2)    #do not use "$x"
+
+    cleos-sc push action safe.oracle drawassets \
+        '[['${txk1_obj}','${txk1_obj}']]' -p ${account}
 }

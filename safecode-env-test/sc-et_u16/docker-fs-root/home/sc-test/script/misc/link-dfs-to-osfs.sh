@@ -4,7 +4,7 @@ zpath=$(cd `dirname $0`; pwd)
 cd $zpath > /dev/null
 
 cd ../../../bankledger
-#now change dir to /home/bankledger or .../docker-fs-root/home/bankledger
+#now change dir to .../docker-fs-root/home/bankledger
 
 function link_dir()
 {

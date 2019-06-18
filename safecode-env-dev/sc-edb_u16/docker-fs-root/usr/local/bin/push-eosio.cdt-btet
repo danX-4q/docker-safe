@@ -1,9 +1,0 @@
-#!/bin/bash
-
-cd /usr/local/bin/
-. sc-et.conf
-
-ssh root@"${SC_ET__HOST}" "mkdir -p ${SC_ET__DIR}"
-
-cd /home/bankledger/eosio.cdt/build/packages/
-scp eosio.cdt-*.deb root@"${SC_ET__HOST}":"${SC_ET__DIR}"

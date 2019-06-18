@@ -80,7 +80,7 @@ echo '================================='
 so__draw2asset "${TXID2} 0" "${TXID2} 1" danx1
 echo 'action: done'
 so__show_cctx
-echo "check cctx by: ${TXID2}-0       ${TXID2}-1"
+echo "check cctx by: ${TXID2}-0 ${TXID2}-1"
 echo '================================='
 
 #failed

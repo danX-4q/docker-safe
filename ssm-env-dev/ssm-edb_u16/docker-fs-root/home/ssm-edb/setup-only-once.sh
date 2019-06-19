@@ -86,7 +86,8 @@ ssm-edb--code --install-extension eamodio.gitlens
 #section: install node 10.x LTS
 
 curl -sL https://deb.nodesource.com/setup_10.x | bash - &&
-apt-get install -y nodejs=10.15.3-1nodesource1 &&
+#spec nodejs version like: apt-get install -y nodejs=10.15.3-1nodesource1 &&
+apt-get install -y nodejs &&
 apt-get install -y gcc g++ make &&
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && 
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list &&

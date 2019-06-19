@@ -7,9 +7,9 @@ services:
     labels:
       author: "danX <chenxd@bankledger.com>"
       maintainer: "danX <chenxd@bankledger.com>"
-      version: "10.15"
+      version: "10.16"
       description: "This is the safe<->safecode middleman develop environment based on nodejs 10.15.x LTS"
-    image: bankledger/ssm-edb:10.15-u16.04-1
+    image: bankledger/ssm-edb:10.16-u16.04-1
     cap_add:
       - ALL
     env_file:
@@ -19,4 +19,4 @@ services:
       - ./docker-mount/ex-work:/home/ex-work
       - /tmp/.X11-unix:/tmp/.X11-unix
     ports:
-      - "7001:7001"
+      - "8880:8880"

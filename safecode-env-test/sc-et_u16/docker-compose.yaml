@@ -14,9 +14,6 @@ services:
       - ALL
     env_file:
       - ./docker-env.git
-    extra_hosts:
-      - "rpc.safe.ssm.bankledger.com:127.0.0.1"
-      - "rpc.safecode.ssm.bankledger.com:127.0.0.1"
     volumes:
       #paths valid at CONTAINER: eos/build/, eosio.cdt/build/, eosio.contracts/build/
       #which are part of source code tree valid at sc-edb

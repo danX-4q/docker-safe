@@ -14,10 +14,15 @@ services:
       - ALL
     env_file:
       - ./docker-env.git
+    extra_hosts:
+      - "danx1.et.ssm.bankledger.com:127.0.0.1"
     volumes:
       - ./docker-mount/bankledger:/home/bankledger
       - ./docker-mount/ex-work:/home/ex-work
       - /tmp/.X11-unix:/tmp/.X11-unix
 #sample only
 #    ports:
-#      - "8081:8081"
+#      - "7770:7770"
+#      - "5550:5550"
+#      - "7771:7771"
+#      - "5551:5551"

@@ -26,16 +26,6 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 #######################################
 #######################################
 #######################################
-#section: check vscode deb package
-
-VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.34.0-1557957934_amd64.deb"
-[ -f $VSCODE_DEB_FILE ] && 
-[ "23b43c9a8dcc79a65ad86e7f3a7a8ce7" == $(md5sum $VSCODE_DEB_FILE | awk '{print $1}') ] ||
-{ echo "$0 said: code_*.deb error"; exit 1; }
-
-#######################################
-#######################################
-#######################################
 #section: replace os's default sources.list
 
 [ -f /etc/apt/sources.list ] && mv /etc/apt/sources.list /etc/apt/sources.list_os.nouse
@@ -63,9 +53,21 @@ apt-get update &&
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y; 
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
-} && 
-apt-get install -y "${VSCODE_DEB_FILE}" ||
+} ||
 { echo "$0 said: error when apt-get install ..."; exit 1; }
+
+#######################################
+#######################################
+#######################################
+#section: install vscode
+
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg ||
+{ echo "$0 said: error when get microsoft.gpg"; exit 1; }
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list ||
+{ echo "$0 said: error when config vscode.list"; exit 1; }
+apt-get update &&
+apt-get install -y code ||
+{ echo "$0 said: error when install vscode"; exit 1; }
 
 #######################################
 #######################################

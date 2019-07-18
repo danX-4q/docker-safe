@@ -1,3 +1,5 @@
+docker-env.git
+
 docker-fs-root/home/sc-edb/build-aux/code_*.deb
 docker-fs-root/home/sc-edb/build-aux/eos-v*
 docker-fs-root/home/sc-edb/build-aux/eos-build-depends/*.tar.gz

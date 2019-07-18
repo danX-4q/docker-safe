@@ -17,4 +17,5 @@ cd "$DC_PRJ_ROOT_DIR" > /dev/null
 
 ##############################
 
+./dc-build.sh "$DC_CONF"
 docker-compose up -d

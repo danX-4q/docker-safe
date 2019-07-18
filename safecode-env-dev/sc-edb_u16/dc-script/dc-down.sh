@@ -17,4 +17,4 @@ cd "$DC_PRJ_ROOT_DIR" > /dev/null
 
 ##############################
 
-docker-compose down
+docker-compose down --rmi all

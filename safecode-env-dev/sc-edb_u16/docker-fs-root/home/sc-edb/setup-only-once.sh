@@ -28,20 +28,23 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 #######################################
 #section: check eos-build-depends-packages
 
-EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/boost_1_67_0.tar.bz2"
-[ -f $EBD_FILE ] && 
-[ "ced776cb19428ab8488774e1415535ab" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
-{ echo "$0 said: $EBD_FILE error"; exit 1; }
+function check_eos_build_depends_packages()
+{
+	EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/boost_1_67_0.tar.bz2"
+	[ -f $EBD_FILE ] && 
+	[ "ced776cb19428ab8488774e1415535ab" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
+	{ echo "$0 said: $EBD_FILE error"; exit 1; }
 
-EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongodb-linux-x86_64-3.6.3.tgz"
-[ -f $EBD_FILE ] && 
-[ "fe803e2243aff20a634d5aa711705e82" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
-{ echo "$0 said: $EBD_FILE error"; exit 1; }
+	EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongodb-linux-x86_64-3.6.3.tgz"
+	[ -f $EBD_FILE ] && 
+	[ "fe803e2243aff20a634d5aa711705e82" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
+	{ echo "$0 said: $EBD_FILE error"; exit 1; }
 
-EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongo-c-driver-1.10.2.tar.gz"
-[ -f $EBD_FILE ] && 
-[ "09f9d2b48fa24e47f9e608d290976766" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
-{ echo "$0 said: $EBD_FILE error"; exit 1; }
+	EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongo-c-driver-1.10.2.tar.gz"
+	[ -f $EBD_FILE ] && 
+	[ "09f9d2b48fa24e47f9e608d290976766" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
+	{ echo "$0 said: $EBD_FILE error"; exit 1; }
+}
 
 #######################################
 #######################################
@@ -50,9 +53,12 @@ EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongo-c-
 
 EOS_VER="v1.6.0"
 EOS_SOURCE_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-${EOS_VER}.zip"
-[ -f $EOS_SOURCE_FILE ] && 
-[ "50ceece5d97371e5c74fcead25b6a6ff" == $(md5sum $EOS_SOURCE_FILE | awk '{print $1}') ] ||
-{ echo "$0 said: eos-*.zip error"; exit 1; }
+function check_eos_source_package()
+{
+	[ -f $EOS_SOURCE_FILE ] && 
+	[ "50ceece5d97371e5c74fcead25b6a6ff" == $(md5sum $EOS_SOURCE_FILE | awk '{print $1}') ] ||
+	{ echo "$0 said: eos-*.zip error"; exit 1; }
+}
 
 #######################################
 #######################################
@@ -105,23 +111,25 @@ apt-get install -y code ||
 #######################################
 #section: install vscode extensions
 
-ssm-edb--code --install-extension MS-CEINTL.vscode-language-pack-zh-hans
-ssm-edb--code --install-extension ms-vscode.cpptools
-ssm-edb--code --install-extension alefragnani.Bookmarks
-ssm-edb--code --install-extension eamodio.gitlens
+sc-edb--code --install-extension MS-CEINTL.vscode-language-pack-zh-hans
+sc-edb--code --install-extension ms-vscode.cpptools
+sc-edb--code --install-extension alefragnani.Bookmarks
+sc-edb--code --install-extension eamodio.gitlens
 
 #######################################
 #######################################
 #######################################
 #section: install eos-build-depends
 
-cd "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/" &&
-unzip eos-${EOS_VER}.zip &&
-cd eos-${EOS_VER}/ &&
-patch -p1 < ../eos-only-install-depends.patch &&
-echo 1 | ./eosio_build.sh ||
-{ echo "$0 said: error when build eos from source ..."; exit 1; }
-
+function install_eos_build_depends()
+{
+	cd "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/" &&
+	unzip eos-${EOS_VER}.zip &&
+	cd eos-${EOS_VER}/ &&
+	patch -p1 < ../eos-only-install-depends.patch &&
+	echo 1 | ./eosio_build.sh ||
+	{ echo "$0 said: error when build eos from source ..."; exit 1; }
+}
 #######################################
 #######################################
 #######################################

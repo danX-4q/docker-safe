@@ -26,16 +26,6 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 #######################################
 #######################################
 #######################################
-#section: check vscode deb package
-
-VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.30.2-1546901646_amd64.deb"
-[ -f $VSCODE_DEB_FILE ] && 
-[ "1db1e99da33252f633046344cd940fbc" == $(md5sum $VSCODE_DEB_FILE | awk '{print $1}') ] ||
-{ echo "$0 said: code_*.deb error"; exit 1; }
-
-#######################################
-#######################################
-#######################################
 #section: check eos-build-depends-packages
 
 EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/boost_1_67_0.tar.bz2"
@@ -94,9 +84,31 @@ apt-get update &&
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y; 
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
-} && 
-apt-get install -y "${VSCODE_DEB_FILE}" ||
+} ||
 { echo "$0 said: error when apt-get install ..."; exit 1; }
+
+#######################################
+#######################################
+#######################################
+#section: install vscode
+
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg ||
+{ echo "$0 said: error when get microsoft.gpg"; exit 1; }
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list ||
+{ echo "$0 said: error when config vscode.list"; exit 1; }
+apt-get update &&
+apt-get install -y code ||
+{ echo "$0 said: error when install vscode"; exit 1; }
+
+#######################################
+#######################################
+#######################################
+#section: install vscode extensions
+
+ssm-edb--code --install-extension MS-CEINTL.vscode-language-pack-zh-hans
+ssm-edb--code --install-extension ms-vscode.cpptools
+ssm-edb--code --install-extension alefragnani.Bookmarks
+ssm-edb--code --install-extension eamodio.gitlens
 
 #######################################
 #######################################
@@ -117,7 +129,6 @@ echo 1 | ./eosio_build.sh ||
 
 apt -y autoremove && 
 apt-get clean  && 
-rm -rf "${VSCODE_DEB_FILE}" &&
 rm -rf "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-${EOS_VER}/" &&
 rm -rf "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-${EOS_VER}.zip" ||
 { echo "$0 said: error when apt clean ..."; exit 1; }

@@ -2,7 +2,7 @@
 software-properties-common
 
 ####system
-apt-utils unzip sudo
+apt-utils apt-transport-https unzip sudo
 
 ####for cmd: git
 git

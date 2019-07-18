@@ -109,8 +109,7 @@ cnpm -v ||
 #section: 
 
 apt -y autoremove && 
-apt-get clean  && 
-rm -rf "${VSCODE_DEB_FILE}" ||
+apt-get clean ||
 { echo "$0 said: error when apt clean ..."; exit 1; }
 
 #######################################

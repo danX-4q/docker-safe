@@ -7,9 +7,9 @@ services:
     labels:
       author: "danX <chenxd@bankledger.com>"
       maintainer: "danX <chenxd@bankledger.com>"
-      version: "1.6.0"
-      description: "This is the base develop environment for compiling"
-    image: bankledger/sc-edb:1.6.0-u16.04-1
+      version: "1.8.1"
+      description: "This is the base develop environment for compiling safecode(eos)"
+    image: bankledger/sc-edb:1.8.1-u16.04-1
     cap_add:
       - ALL
     env_file:
@@ -20,9 +20,8 @@ services:
       - ./docker-mount/bankledger:/home/bankledger
       - ./docker-mount/ex-work:/home/ex-work
       - /tmp/.X11-unix:/tmp/.X11-unix
-#sample only
-#    ports:
-#      - "7770:7770"
-#      - "5550:5550"
+    ports:
+      - "7770:7770"
+      - "5550:5550"
 #      - "7771:7771"
 #      - "5551:5551"

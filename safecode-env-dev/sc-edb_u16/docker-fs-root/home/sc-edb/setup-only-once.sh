@@ -112,10 +112,7 @@ apt-get install -y code ||
 #######################################
 #section: install vscode extensions
 
-sc-edb--code --install-extension MS-CEINTL.vscode-language-pack-zh-hans
-sc-edb--code --install-extension ms-vscode.cpptools
-sc-edb--code --install-extension alefragnani.Bookmarks
-sc-edb--code --install-extension eamodio.gitlens
+sc-edb--code--install-extension
 
 #######################################
 #######################################

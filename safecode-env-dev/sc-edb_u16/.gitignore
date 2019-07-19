@@ -2,8 +2,4 @@ docker-env.git
 inst.docker-compose.yaml
 dc-script/inst.dc.conf
 
-docker-fs-root/home/sc-edb/build-aux/code_*.deb
-docker-fs-root/home/sc-edb/build-aux/eos-v*
-docker-fs-root/home/sc-edb/build-aux/eos-build-depends/*.tar.gz
-docker-fs-root/home/sc-edb/build-aux/eos-build-depends/*.tar.bz2
-docker-fs-root/home/sc-edb/build-aux/eos-build-depends/*.tgz
+docker-fs-root/home/sc-edb/build-aux/eosio-v*

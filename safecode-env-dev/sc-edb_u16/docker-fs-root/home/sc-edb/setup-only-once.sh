@@ -27,39 +27,16 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 #######################################
 #######################################
 #######################################
-#section: check eos-build-depends-packages
+#section: check eosio-build-depends-packages
 
-function check_eos_build_depends_packages()
+EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eosio-v1.8.1-dependencise.tar.gz"
+function check_eosio_build_depends_packages()
 {
-	EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/boost_1_67_0.tar.bz2"
 	[ -f $EBD_FILE ] && 
-	[ "ced776cb19428ab8488774e1415535ab" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
-	{ echo "$0 said: $EBD_FILE error"; exit 1; }
-
-	EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongodb-linux-x86_64-3.6.3.tgz"
-	[ -f $EBD_FILE ] && 
-	[ "fe803e2243aff20a634d5aa711705e82" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
-	{ echo "$0 said: $EBD_FILE error"; exit 1; }
-
-	EBD_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-build-depends/mongo-c-driver-1.10.2.tar.gz"
-	[ -f $EBD_FILE ] && 
-	[ "09f9d2b48fa24e47f9e608d290976766" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
-	{ echo "$0 said: $EBD_FILE error"; exit 1; }
+	[ "372c0c1d46fc249a4857b613ac01b01a" == $(md5sum $EBD_FILE | awk '{print $1}') ] ||
+	{ echo "$0 said: check $EBD_FILE error"; exit 1; }
 }
-
-#######################################
-#######################################
-#######################################
-#section: check eos source package
-
-EOS_VER="v1.6.0"
-EOS_SOURCE_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-${EOS_VER}.zip"
-function check_eos_source_package()
-{
-	[ -f $EOS_SOURCE_FILE ] && 
-	[ "50ceece5d97371e5c74fcead25b6a6ff" == $(md5sum $EOS_SOURCE_FILE | awk '{print $1}') ] ||
-	{ echo "$0 said: eos-*.zip error"; exit 1; }
-}
+check_eosio_build_depends_packages
 
 #######################################
 #######################################
@@ -117,17 +94,16 @@ sc-edb--code--install-extension
 #######################################
 #######################################
 #######################################
-#section: install eos-build-depends
+#section: install eosio-build-depends
 
-function install_eos_build_depends()
+function install_eosio_build_depends()
 {
 	cd "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/" &&
-	unzip eos-${EOS_VER}.zip &&
-	cd eos-${EOS_VER}/ &&
-	patch -p1 < ../eos-only-install-depends.patch &&
-	echo 1 | ./eosio_build.sh ||
-	{ echo "$0 said: error when build eos from source ..."; exit 1; }
+	tar xzf "$EBD_FILE" -C / ||
+	{ echo "$0 said: error when install eosio depends ..."; exit 1; }
 }
+install_eosio_build_depends
+
 #######################################
 #######################################
 #######################################
@@ -135,8 +111,7 @@ function install_eos_build_depends()
 
 apt -y autoremove && 
 apt-get clean  && 
-rm -rf "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-${EOS_VER}/" &&
-rm -rf "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/eos-${EOS_VER}.zip" ||
+rm -rf "${EBD_FILE}" ||
 { echo "$0 said: error when apt clean ..."; exit 1; }
 
 #######################################

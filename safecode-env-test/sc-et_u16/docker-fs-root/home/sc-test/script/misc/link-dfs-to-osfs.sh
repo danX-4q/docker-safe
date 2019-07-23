@@ -13,6 +13,6 @@ function link_dir()
     ln -s "/home/bankledger/${tdir}"
 }
 
-link_dir eos/
-link_dir eosio.cdt/
-link_dir eosio.contracts/
+link_dir safecode/
+link_dir safecode.cdt/
+link_dir safecode.contracts/

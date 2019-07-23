@@ -22,7 +22,7 @@ cd -
 
 ##############################
 
-so__reset 5453 0
+so__setchainpos 5453 0
 so__show_globalkv
 echo 'action: done; table: 5453 + 0'
 echo '================================='

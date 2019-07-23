@@ -71,13 +71,13 @@ function so__show_cctx()
 
 ##############################
 
-function so__reset()
+function so__setchainpos()
 {
     local block_num=$1
     local tx_index=$2
 
-    cleos-sc push action safe.oracle reset "[[${block_num},${tx_index}]]" -p safe.oracle
-    echo "safe.oracle::reset result: $?"
+    cleos-sc push action safe.oracle setchainpos "[[${block_num},${tx_index}]]" -p safe.oracle
+    echo "safe.oracle::setchainpos result: $?"
 }
 
 function so__push0cctx()

@@ -28,7 +28,7 @@ TXID3=$(get_next_txid $TXID2)
 TXID4=$(get_next_txid $TXID3)
 
 #reset
-so__reset 5453 0
+so__setchainpos 5453 0
 so__show_globalkv
 echo 'action: done; table: 5453 + 0'
 echo '================================='

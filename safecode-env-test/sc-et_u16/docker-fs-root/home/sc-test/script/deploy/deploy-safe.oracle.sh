@@ -20,11 +20,11 @@ cd -
 
 ##############################
 
-CONTRACTS_DIR="${PWD}/../../../bankledger/eosio.contracts/build/"
+CONTRACTS_DIR="${PWD}/../../../bankledger/safecode.contracts/build/contracts/"
 
 ##########
-cd ${CONTRACTS_DIR}sc.eosio.token/
-cleos-sc set contract eosio.token ${PWD} sc.eosio.token.wasm sc.eosio.token.abi || { echo "error when set eosio.token(sc.eosio.token)"; exit 1; }
+cd ${CONTRACTS_DIR}eosio.token/
+cleos-sc set contract eosio.token ${PWD} eosio.token.wasm eosio.token.abi || { echo "error when set eosio.token"; exit 1; }
 
 ##########
 cd ${CONTRACTS_DIR}safe.oracle/

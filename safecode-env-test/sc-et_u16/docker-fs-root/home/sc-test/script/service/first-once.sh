@@ -20,7 +20,7 @@ cd -
 
 ##############################
 
-CONTRACTS_DIR="${PWD}/../../../bankledger/eosio.contracts/build/"
+CONTRACTS_DIR="${PWD}/../../../bankledger/safecode.contracts/build/contracts/"
 
 ##########
 cd ${CONTRACTS_DIR}eosio.bios/

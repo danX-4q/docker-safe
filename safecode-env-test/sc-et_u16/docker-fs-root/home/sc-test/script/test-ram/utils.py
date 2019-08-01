@@ -27,7 +27,7 @@ class CleosCmdBuiler:
             a = account
         else :
             raise TypeError("invalid type for @account")
-        return '%s get account %s' % (self.bin_cleos, a)
+        return '%s get account %s -j' % (self.bin_cleos, a)
 
     def cleos__system_buyram(self, account, receiver, buyamount):
         if isinstance(account, str):

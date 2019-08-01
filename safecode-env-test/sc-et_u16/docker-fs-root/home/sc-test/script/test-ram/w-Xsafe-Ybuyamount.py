@@ -4,6 +4,7 @@
 import argparse
 import subprocess
 import time
+import json
 from utils import *
 
 
@@ -22,32 +23,15 @@ def get_wfo(filename):
 
 ####################
 
-def get_account_info(account):
+def get_account_ram_quota(account):
 
     #cleos-sc get account xxxx
     cmd = cmdbuilder.cleos__get_account(account)
 
     #print cmd
     out_all = sp.check_output(cmd, True)
-    #print out
-    out_lines = out_all.split('\n')
-    
-    mem = 0.0
-    liquid = 0.0
-
-    for x in out_lines :
-        r = x.strip().split()
-        if len(r) == 0:
-            continue
-
-        if r[0] == 'quota:':
-            mem = float(r[1])
-        elif r[0] == 'liquid:':
-            liquid = float(r[1])
-    else :
-        print mem, liquid
-    
-    return (mem, liquid)
+    oj = json.loads(out_all)
+    return (int(oj['ram_quota']))
 
 ####################
 
@@ -66,16 +50,15 @@ def biz_entry(prog_args):
     wfo = get_wfo(prog_args.file)
 
     ##########
-    (last_mem, last_liquid) = get_account_info(prog_args.account)
+    last_ram = get_account_ram_quota(prog_args.account)
     time.sleep(prog_args.interval)
 
     nr = prog_args.buynr
     for i in range(0, nr):
         do_buyram(prog_args.account, prog_args.buyamount)
-        (mem, liquid) = get_account_info(prog_args.account)
-        wfo.write(str(i) + ' ' + str(mem - last_mem) + '\n')
-        last_mem = mem
-        last_liquid = liquid
+        ram = get_account_ram_quota(prog_args.account)
+        wfo.write(str(i) + ' ' + str(ram - last_ram) + '\n')
+        last_ram = ram
         time.sleep(prog_args.interval)
 
 

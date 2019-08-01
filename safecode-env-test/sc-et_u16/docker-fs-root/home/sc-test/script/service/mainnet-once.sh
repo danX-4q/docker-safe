@@ -46,3 +46,8 @@ cleos-sc set contract eosio ${PWD} -x 1000 || { echo "error when set eosio.syste
 cleos-sc push action eosio.token issue '[ "eosio", "4000000.00000000 SAFE", "memo" ]' -p eosio@active
 cleos-sc push action eosio init '[0, "8,SAFE"]' -p eosio@active
 cleos-sc push action eosio setpriv '["eosio.msig", 1]' -p eosio@active
+
+##########
+cleos-sc system newaccount eosio testramprice $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1.00000000 SAFE" -p eosio@active
+#cleos-sc system newaccount eosio testramprice $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram-kbytes 1500000 -p eosio@active
+cleos-sc transfer eosio testramprice "3500000.00000000 SAFE" "memo" -p eosio@active

@@ -87,10 +87,10 @@ def main():
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('-a', '--account', nargs='?', type=str, default='testramprice', help='safecode account who buys ram')
-    parser.add_argument('-b', '--buyamount', nargs='?', type=int, default=10000, help='')
-    parser.add_argument('-i', '--interval', nargs='?', type=float, default=0.5, help='')
-    parser.add_argument('-n', '--buynr', nargs='?', type=int, default=10, help='')
-    parser.add_argument('-f', '--file', nargs='?', type=str, default='', help='')
+    parser.add_argument('-b', '--buyamount', nargs='?', type=int, default=10000, help='buy amount per-time')
+    parser.add_argument('-i', '--interval', nargs='?', type=float, default=0.5, help='sleep interval(ms) when cleos push action')
+    parser.add_argument('-n', '--buynr', nargs='?', type=int, default=10, help='times of buy ram')
+    parser.add_argument('-f', '--file', nargs='?', type=str, default='', help='x-y data file; default w-Xsafe-Ybuyamount__YYYYmmdd_HHMMSS.plot')
 
     prog_args = parser.parse_args()
     print prog_args

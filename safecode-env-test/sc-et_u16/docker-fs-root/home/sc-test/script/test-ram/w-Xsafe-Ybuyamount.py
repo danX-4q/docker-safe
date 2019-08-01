@@ -57,6 +57,7 @@ def biz_entry(prog_args):
     for i in range(0, nr):
         do_buyram(prog_args.account, prog_args.buyamount)
         ram = get_account_ram_quota(prog_args.account)
+        print 'plot:%4d,%d' % (i, ram - last_ram)
         wfo.write(str(i) + ' ' + str(ram - last_ram) + '\n')
         last_ram = ram
         time.sleep(prog_args.interval)

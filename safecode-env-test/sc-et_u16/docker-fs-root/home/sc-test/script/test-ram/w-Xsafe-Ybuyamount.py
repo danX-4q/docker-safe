@@ -17,7 +17,7 @@ sp = CSubprocess()
 
 def get_wfo(filename):
     if filename == '':
-        filename = 'w-Xsafe-Ybuyamount__' + time.strftime("%Y%m%d_%H%M%S", time.localtime()) + '.plot'
+        filename = 'w-Xsafe-Ybuyamount__' + time.strftime("%Y%m%d_%H%M%S", time.localtime()) + '.plt'
     wfo = open(filename, "w")
     return wfo
 
@@ -58,6 +58,7 @@ def biz_entry(prog_args):
         do_buyram(prog_args.account, prog_args.buyamount)
         ram = get_account_ram_quota(prog_args.account)
         print 'plot:%4d,%d' % (i, ram - last_ram)
+        print 'total ram: %d B, %f KB, %f MB, %f GB' % (ram, ram/1000.0, ram/1000000.0, ram/1000000000.0)
         wfo.write(str(i) + ' ' + str(ram - last_ram) + '\n')
         last_ram = ram
         time.sleep(prog_args.interval)
@@ -74,7 +75,7 @@ def main():
     parser.add_argument('-b', '--buyamount', nargs='?', type=int, default=10000, help='buy amount per-time')
     parser.add_argument('-i', '--interval', nargs='?', type=float, default=0.5, help='sleep interval(ms) when cleos push action')
     parser.add_argument('-n', '--buynr', nargs='?', type=int, default=10, help='times of buy ram')
-    parser.add_argument('-f', '--file', nargs='?', type=str, default='', help='x-y data file; default w-Xsafe-Ybuyamount__YYYYmmdd_HHMMSS.plot')
+    parser.add_argument('-f', '--file', nargs='?', type=str, default='', help='x-y data file; default w-Xsafe-Ybuyamount__YYYYmmdd_HHMMSS.plt')
 
     prog_args = parser.parse_args()
     print prog_args

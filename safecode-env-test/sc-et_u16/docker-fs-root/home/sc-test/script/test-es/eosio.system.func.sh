@@ -11,7 +11,7 @@ function __parm_to_obj__txo()
     local type=$5
     local tp=$6
     
-    echo '{"txid":"'${txid}'","outidx":'${outidx}',"quantity":"'${quantity}'","from":"'${from}'","tp":"'${tp}'",}'
+    echo '{"txid":"'${txid}'","outidx":'${outidx}',"quantity":"'${quantity}'","from":["'${from}'"],"tp":"'${tp}'","type":'$type'}'
 }
 
 ##############################
@@ -53,9 +53,12 @@ function es__vtxo2prod()
     local txo_obj=$(__parm_to_obj__txo $txo)
 
     #do use "${txo_obj}"!!!
-    cleos-sc push action eosio vtxo2prod \
+    local json=$(cleos-sc -v push action eosio vtxo2prod \
         '{"txo":'${txo_obj}',"producer":'${producer}'}' \
-        -p safe.oracle
+        -j -p safe.oracle)
     echo "eosio::vtxo2prod result: $?"
-
+    [[ "$json" != "" ]] && {
+        echo "eosio::vtxo2prod output: "
+        echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
+    }
 }

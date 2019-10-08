@@ -45,6 +45,7 @@ cleos-sc push action eosio activate '["1a99a59d87e06e09ec5b028a9cbb7749b4a5ad881
 cleos-sc push action eosio activate '["4e7bf348da00a945489b2a681749eb56f5de00b900014e137ddae39f48f69d67"]' -p eosio # RAM_RESTRICTIONS
 
 ##########
+cleos-sc create account eosio safe.ettfee $K0_PUB
 cleos-sc create account eosio eosio.token $K0_PUB
 cd ${CONTRACTS_DIR}eosio.token/
 cleos-sc set contract eosio.token ${PWD} || { echo "error when set eosio.token"; exit 1; }

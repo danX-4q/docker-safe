@@ -1,1 +1,5 @@
+docker-env.git
+inst.docker-compose.yaml
+dc-script/inst.dc.conf
+
 docker-fs-root/home/s-edb/build-aux/code_*.deb

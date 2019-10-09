@@ -7,9 +7,9 @@ services:
     labels:
       author: "danX <chenxd@bankledger.com>"
       maintainer: "danX <chenxd@bankledger.com>"
-      version: "2.0.0"
+      version: "3.0.0"
       description: "This is the base develop environment for compiling"
-    image: bankledger/s-edb:2.0.0-u16.04-2
+    image: bankledger/s-edb:3.0.0-u16.04-1
     env_file:
       - ./docker-env.git
     volumes:

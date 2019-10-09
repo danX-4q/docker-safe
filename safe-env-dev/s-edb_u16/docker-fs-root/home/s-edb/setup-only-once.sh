@@ -14,6 +14,7 @@ then
 	find ${ROOT_DIR}/home/ | grep  -E '.gitkeep|.gitignore' | xargs rm -rf
 	find ${ROOT_DIR}/home/ -name '*.sh' | xargs chmod +x
 	find ${ROOT_DIR}/usr/local/bin/ | xargs chmod +x
+	find ${ROOT_DIR}/usr/local/bin/ -name *.conf | xargs chmod -x
 else
 	ROOT_DIR="${PWD}/"
 	mkdir -p ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
@@ -26,12 +27,17 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 #######################################
 #######################################
 #######################################
-#section: check vscode deb package
+#section: check safe-depends-bin
 
-VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.30.2-1546901646_amd64.deb"
-[ -f $VSCODE_DEB_FILE ] && 
-[ "1db1e99da33252f633046344cd940fbc" == $(md5sum $VSCODE_DEB_FILE | awk '{print $1}') ] ||
-{ echo "$0 said: code_*.deb error"; exit 1; }
+DEPENDS_GZ_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/depends_bin.*.tar.gz
+function check_safe_depends_bin()
+{
+	return
+	[ -f $DEPENDS_GZ_FILE ] && 
+	[ "18f45ffff2a0e6febd18de74c2abe9f7" == $(md5sum $DEPENDS_GZ_FILE | awk '{print $1}') ] ||
+	{ echo "$0 said: depends_bin.*.tar.gz error"; exit 1; }
+}
+#check_safe_depends_bin
 
 #######################################
 #######################################
@@ -63,30 +69,60 @@ apt-get update &&
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y; 
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
-} && 
-apt-get install -y "${VSCODE_DEB_FILE}" &&
-apt -y autoremove && 
-apt-get clean  && 
-rm -rf "${VSCODE_DEB_FILE}" ||
+} ||
 { echo "$0 said: error when apt-get install ..."; exit 1; }
 
 #######################################
 #######################################
 #######################################
+#section: install vscode
+
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg ||
+{ echo "$0 said: error when get microsoft.gpg"; exit 1; }
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list ||
+{ echo "$0 said: error when config vscode.list"; exit 1; }
+apt-get update &&
+apt-get install -y code ||
+{ echo "$0 said: error when install vscode"; exit 1; }
+
+#######################################
+#######################################
+#######################################
+#section: install vscode extensions
+
+s-edb--code--install-extension
+
+#######################################
+#######################################
+#######################################
+#section: install safe-depends-bin
+
+function install_safe_depends_bin()
+{
+	cd "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/" &&
+	tar xzf "$DEPENDS_GZ_FILE" -C ../ ||
+	{ echo "$0 said: error when install safe depends ..."; exit 1; }
+}
+#install_safe_depends_bin
+
+#######################################
+#######################################
+#######################################
 #section: 
+
+apt -y autoremove && 
+apt-get clean  && 
+rm -rf "${DEPENDS_GZ_FILE}" ||
+{ echo "$0 said: error when apt clean ..."; exit 1; }
+
+#######################################
+#######################################
+#######################################
+#section: set build tools
 
 update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix &&
 update-alternatives --set i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-posix ||
 { echo "$0 said: error when update-alternatives xxx-w64-mingw32-g++"; exit 1; }
-
-#######################################
-#######################################
-#######################################
-#section: 
-
-#cd /usr/lib/x86_64-linux-gnu/qtchooser/ &&
-#ln -s ../../../share/qtchooser/qt5-x86_64-linux-gnu.conf default.conf ||
-# { echo "$0 said: error when setting qmake[qt5]"; exit 1; }
 
 #######################################
 #######################################

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+s-edb--code --install-extension MS-CEINTL.vscode-language-pack-zh-hans
+s-edb--code --install-extension ms-vscode.cpptools
+s-edb--code --install-extension alefragnani.Bookmarks
+s-edb--code --install-extension eamodio.gitlens

@@ -1,0 +1,97 @@
+#!/bin/bash
+
+TEMP=`getopt -o s:d:vh --long safe_dir:,depbin_dir:,verbose,help -- "$@"`
+
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+
+# Note the quotes around `$TEMP': they are essential!
+eval set -- "$TEMP"
+
+########################################
+########################################
+########################################
+
+DEPBIN_DIR="/home/s-ed/depends_bin/"
+SAFE_DIR="$PWD/"
+VERBOSE="false"
+
+function usage {
+  echo "Usage: $0 [-s|--safe_dir SAFE_DIR] [-d|--depbin_dir DEPBIN_DIR] [-v|--verbose] [-h|--help]"
+  cat <<EOF
+Options:
+  -s|--safe_dir		default: "$PWD/"
+  -d|--depbin_dir	default: "/home/s-ed/depends_bin/"
+  -v|--verbose		true or false; default: false
+  -h|--help		show help message
+
+EOF
+}
+
+function dump_args {
+  echo "=========="
+  echo "cmd args:"
+  echo "SAFE_DIR = $SAFE_DIR"
+  echo "DEPBIN_DIR = $DEPBIN_DIR"
+  echo "VERBOSE = $VERBOSE"
+}
+
+########################################
+########################################
+########################################
+
+while true; do
+  case "$1" in
+    -s | --safe_dir )
+      SAFE_DIR="$2"; shift 2 ;;
+    -d | --depbin_dir )
+      DEPBIN_DIR="$2"; shift 2 ;;
+    -v | --verbose )
+      VERBOSE="true"; shift ;;
+    -h | --help )
+      usage; exit 0;;
+    -- ) 
+      shift; break ;;
+    * )
+      break ;;
+  esac
+done
+
+[ ${VERBOSE} = "true" ] && dump_args
+
+########################################
+########################################
+########################################
+
+[ -e "${SAFE_DIR}depends_bin" ] && {
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "$0 said: ${SAFE_DIR}depends_bin has been exists; exit 1."
+  }
+  exit 1
+}
+
+s-ed--verify-depends_bin --safe_dir "$SAFE_DIR" --depbin_dir "$DEPBIN_DIR" || {
+  RET_VAL=$?
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "s-ed--verify-depends_bin exit code: $RET_VAL, then $0 exit $RET_VAL also"
+  }
+  exit $RET_VAL
+}
+
+ln -s "$DEPBIN_DIR" "${SAFE_DIR}/depends_bin" || {
+  RET_VAL=$?
+  [ ${VERBOSE} = "true" ] && {
+    echo "=========="
+    echo "'ln -s xxx' exit code: $RET_VAL, then $0 exit $RET_VAL also"
+  }
+  exit $RET_VAL
+}
+
+[ ${VERBOSE} = "true" ] && {
+  echo "=========="
+  echo "$0 exit code: 0"
+}
+
+exit 0
+

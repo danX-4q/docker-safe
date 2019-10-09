@@ -119,7 +119,7 @@ s-edb--code--install-extension
 function install_safe_depends_bin()
 {
 	cd "${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/" &&
-	tar xzf "$DEPENDS_GZ_FILE" -C ../ ||
+	tar xzf $DEPENDS_GZ_FILE -C ../ ||
 	{ echo "$0 said: error when install safe depends ..."; exit 1; }
 }
 install_safe_depends_bin

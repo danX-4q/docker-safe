@@ -131,7 +131,7 @@ install_safe_depends_bin
 
 apt -y autoremove && 
 apt-get clean  && 
-rm -rf "${DEPENDS_GZ_FILE}" "${VSCODE_DEB_FILE}" ||
+rm -rf ${DEPENDS_GZ_FILE} ${VSCODE_DEB_FILE} ||
 { echo "$0 said: error when apt clean ..."; exit 1; }
 
 #######################################

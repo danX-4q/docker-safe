@@ -17,9 +17,6 @@ cd "$DC_PRJ_ROOT_DIR" > /dev/null
 
 ##############################
 
-VAR_PREFIX="SC_EDB__"
-EVN_FILE="./docker-env.git"
-
 GIT_BRANCH=$(git branch -va | grep '^*' | awk '{print $2}')
 GIT_HASH=$(git log ${GIT_BRANCH} -n1 | grep '^commit' | awk '{print $2}')
 

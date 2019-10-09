@@ -27,6 +27,16 @@ cd ${ROOT_DIR}/home/${MAIN_DIR_NAME} ||
 #######################################
 #######################################
 #######################################
+#section: check vscode deb package
+
+VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.38.1-1568209190_amd64.deb"
+[ -f $VSCODE_DEB_FILE ] && 
+[ "3bbc586aacbe17a3a8e11a1402abc389" == $(md5sum $VSCODE_DEB_FILE | awk '{print $1}') ] ||
+{ echo "$0 said: code_*.deb error"; exit 1; }
+
+#######################################
+#######################################
+#######################################
 #section: check safe-depends-bin
 
 DEPENDS_GZ_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/depends_bin.*.tar.gz
@@ -77,13 +87,23 @@ sed -e 's|#.*$||g' ${APT_PACK_LIST_FILE} | xargs apt-get install -y;
 #######################################
 #section: install vscode
 
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg ||
-{ echo "$0 said: error when get microsoft.gpg"; exit 1; }
-echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list ||
-{ echo "$0 said: error when config vscode.list"; exit 1; }
-apt-get update &&
-apt-get install -y code ||
-{ echo "$0 said: error when install vscode"; exit 1; }
+function install_vscode_by_apt()
+{
+	curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg ||
+	{ echo "$0 said: error when get microsoft.gpg"; exit 1; }
+	echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list ||
+	{ echo "$0 said: error when config vscode.list"; exit 1; }
+	apt-get update &&
+	apt-get install -y code ||
+	{ echo "$0 said: error when install vscode"; exit 1; }
+}
+
+function install_vscode_by_deb()
+{
+	apt-get install -y "${VSCODE_DEB_FILE}" ||
+	{ echo "$0 said: error when install vscode"; exit 1; }
+}
+install_vscode_by_deb
 
 #######################################
 #######################################
@@ -112,7 +132,7 @@ function install_safe_depends_bin()
 
 apt -y autoremove && 
 apt-get clean  && 
-rm -rf "${DEPENDS_GZ_FILE}" ||
+rm -rf "${DEPENDS_GZ_FILE}" "${VSCODE_DEB_FILE}" ||
 { echo "$0 said: error when apt clean ..."; exit 1; }
 
 #######################################

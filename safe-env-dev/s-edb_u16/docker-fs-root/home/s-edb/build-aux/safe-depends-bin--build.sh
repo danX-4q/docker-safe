@@ -62,11 +62,18 @@ fi
 MACOSX_SDK_FILE=/home/s-edb/build-aux/MacOSX*-SDKs.tar.gz
 [ -f $MACOSX_SDK_FILE ] && 
 [ "cc2d742d09e7e5e01e999098794fa2af" == $(md5sum $MACOSX_SDK_FILE | awk '{print $1}') ] ||
-{ echo "$0 said: MacOSX*-SDKs.tar.gz error"; exit 1; }
+{ echo "$0 said: $MACOSX_SDK_FILE error"; exit 1; }
+
+SOURCE_TAR_GZ_FILE=/home/s-edb/build-aux/sources-*.tar.gz
+[ -f $SOURCE_TAR_GZ_FILE ] &&
+[ "14fb213efe9013df9914f140cba8050c" == $(md5sum $SOURCE_TAR_GZ_FILE | awk '{print $1}') ] ||
+{ echo "$0 said: $SOURCE_TAR_GZ_FILE error"; exit 1; }
 
 rm -rf ../depends_bin/
 cp -rfpP /home/bankledger/safe/depends/ ../depends_bin/
 cd ../depends_bin &&
+rm -rf sources SDKs &&
+tar xzvf ${SOURCE_TAR_GZ_FILE} &&
 tar xzvf ${MACOSX_SDK_FILE} &&
 make HOST=x86_64-pc-linux-gnu -j4 &&
 make HOST=x86_64-w64-mingw32 -j4 &&

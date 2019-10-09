@@ -39,15 +39,15 @@ VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.38.1-1568209
 #######################################
 #section: check safe-depends-bin
 
-DEPENDS_GZ_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/depends_bin.*.tar.gz
+DEPENDS_GZ_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/depends_bin-*.tar.gz
 function check_safe_depends_bin()
 {
 	return
 	[ -f $DEPENDS_GZ_FILE ] && 
-	[ "18f45ffff2a0e6febd18de74c2abe9f7" == $(md5sum $DEPENDS_GZ_FILE | awk '{print $1}') ] ||
-	{ echo "$0 said: depends_bin.*.tar.gz error"; exit 1; }
+	[ "d52cbe42250e1098cf5efff499e0d27b" == $(md5sum $DEPENDS_GZ_FILE | awk '{print $1}') ] ||
+	{ echo "$0 said: $DEPENDS_GZ_FILE error"; exit 1; }
 }
-#check_safe_depends_bin
+check_safe_depends_bin
 
 #######################################
 #######################################

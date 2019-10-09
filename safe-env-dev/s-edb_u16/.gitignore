@@ -3,3 +3,4 @@ inst.docker-compose.yaml
 dc-script/inst.dc.conf
 
 docker-fs-root/home/s-edb/build-aux/code_*.deb
+docker-fs-root/home/s-edb/build-aux/depends_bin-*.tar.gz

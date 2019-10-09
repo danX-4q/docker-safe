@@ -70,11 +70,11 @@ done
   exit 1
 }
 
-s-ed--verify-depends_bin --safe_dir "$SAFE_DIR" --depbin_dir "$DEPBIN_DIR" || {
+s-edb--verify-depends_bin --safe_dir "$SAFE_DIR" --depbin_dir "$DEPBIN_DIR" || {
   RET_VAL=$?
   [ ${VERBOSE} = "true" ] && {
     echo "=========="
-    echo "s-ed--verify-depends_bin exit code: $RET_VAL, then $0 exit $RET_VAL also"
+    echo "s-edb--verify-depends_bin exit code: $RET_VAL, then $0 exit $RET_VAL also"
   }
   exit $RET_VAL
 }

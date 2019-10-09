@@ -62,11 +62,11 @@ done
 ########################################
 ########################################
 
-s-ed--configure-platform --safe_dir "$SAFE_DIR" --depbin_dir "$DEPBIN_DIR" --platform x86_64-apple-darwin11 || {
+s-edb--configure-platform --safe_dir "$SAFE_DIR" --depbin_dir "$DEPBIN_DIR" --platform x86_64-apple-darwin11 || {
   RET_VAL=$?
   [ ${VERBOSE} = "true" ] && {
     echo "=========="
-    echo "s-ed--configure-platform exit code: $RET_VAL, then $0 exit $RET_VAL also"
+    echo "s-edb--configure-platform exit code: $RET_VAL, then $0 exit $RET_VAL also"
   }
   exit $RET_VAL
 }

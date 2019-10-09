@@ -64,7 +64,7 @@ done
 
 
 DIFF_OUTPUT=$( diff -r --brief "$DEPBIN_DIR" "$SAFE_DIR/depends/" 2>/dev/null | 
-               grep -vE ': built|: SDKs|: sources|: work|: x86_64-pc-linux-gnu|: x86_64-w64-mingw32|: i686-w64-mingw32|: x86_64-apple-darwin11' )
+               grep -vE 'built$|SDKs$|sources$|work$|x86_64-pc-linux-gnu$|x86_64-w64-mingw32$|i686-w64-mingw32$|x86_64-apple-darwin11$|build$|staging$' )
 RET_VAL=$?
 [[ $RET_VAL != 0 && $RET_VAL != 1 ]] && {
   [ ${VERBOSE} = "true" ] && {

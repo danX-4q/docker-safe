@@ -11,7 +11,7 @@ eval set -- "$TEMP"
 ########################################
 ########################################
 
-DEPBIN_DIR="/home/s-ed/depends_bin/"
+DEPBIN_DIR="/home/s-edb/depends_bin/"
 SAFE_DIR="$PWD/"
 VERBOSE="false"
 
@@ -20,7 +20,7 @@ function usage {
   cat <<EOF
 Options:
   -s|--safe_dir		default: "$PWD/"
-  -d|--depbin_dir	default: "/home/s-ed/depends_bin/"
+  -d|--depbin_dir	default: "/home/s-edb/depends_bin/"
   -v|--verbose		true or false; default: false
   -h|--help		show help message
 

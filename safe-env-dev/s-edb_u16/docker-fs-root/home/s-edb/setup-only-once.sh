@@ -95,13 +95,13 @@ function install_vscode_by_apt()
 	{ echo "$0 said: error when config vscode.list"; exit 1; }
 	apt-get update &&
 	apt-get install -y code ||
-	{ echo "$0 said: error when install vscode"; exit 1; }
+	{ echo "$0 said: error when install vscode by apt"; exit 1; }
 }
 
 function install_vscode_by_deb()
 {
 	apt-get install -y "${VSCODE_DEB_FILE}" ||
-	{ echo "$0 said: error when install vscode"; exit 1; }
+	{ echo "$0 said: error when install vscode by deb"; exit 1; }
 }
 install_vscode_by_deb
 

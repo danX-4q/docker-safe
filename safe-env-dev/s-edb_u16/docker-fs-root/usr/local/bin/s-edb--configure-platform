@@ -11,7 +11,7 @@ eval set -- "$TEMP"
 ########################################
 ########################################
 
-DEPBIN_DIR="/home/s-ed/depends_bin/"
+DEPBIN_DIR="/home/s-edb/depends_bin/"
 SAFE_DIR="$PWD/"
 PLATFORM="x86_64-pc-linux-gnu"
 VERBOSE="false"
@@ -21,7 +21,7 @@ function usage {
   cat <<EOF
 Options:
   -s|--safe_dir		default: $PWD/
-  -d|--depbin_dir	default: /home/s-ed/depends_bin/
+  -d|--depbin_dir	default: /home/s-edb/depends_bin/
   -p|--platform		[x86_64-pc-linux-gnu,x86_64-w64-mingw32,i686-w64-mingw32,x86_64-apple-darwin11]
 			default: x86_64-pc-linux-gnu
   -v|--verbose		true or false; default: false

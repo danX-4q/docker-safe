@@ -59,7 +59,7 @@ else
     }
 fi
 
-MACOSX_SDK_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/MacOSX*-SDKs.tar.gz
+MACOSX_SDK_FILE=/home/s-edb/build-aux/MacOSX*-SDKs.tar.gz
 [ -f $MACOSX_SDK_FILE ] && 
 [ "cc2d742d09e7e5e01e999098794fa2af" == $(md5sum $MACOSX_SDK_FILE | awk '{print $1}') ] ||
 { echo "$0 said: MacOSX*-SDKs.tar.gz error"; exit 1; }

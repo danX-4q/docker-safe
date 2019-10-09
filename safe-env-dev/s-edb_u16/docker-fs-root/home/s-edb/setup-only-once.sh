@@ -42,7 +42,6 @@ VSCODE_DEB_FILE="${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/code_1.38.1-1568209
 DEPENDS_GZ_FILE=${ROOT_DIR}/home/${MAIN_DIR_NAME}/build-aux/depends_bin-*.tar.gz
 function check_safe_depends_bin()
 {
-	return
 	[ -f $DEPENDS_GZ_FILE ] && 
 	[ "d52cbe42250e1098cf5efff499e0d27b" == $(md5sum $DEPENDS_GZ_FILE | awk '{print $1}') ] ||
 	{ echo "$0 said: $DEPENDS_GZ_FILE error"; exit 1; }
@@ -123,7 +122,7 @@ function install_safe_depends_bin()
 	tar xzf "$DEPENDS_GZ_FILE" -C ../ ||
 	{ echo "$0 said: error when install safe depends ..."; exit 1; }
 }
-#install_safe_depends_bin
+install_safe_depends_bin
 
 #######################################
 #######################################

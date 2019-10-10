@@ -109,7 +109,7 @@ install_vscode_by_deb
 #######################################
 #section: install vscode extensions
 
-#s-edb--code--install-extension
+s-edb--code--install-extension
 
 #######################################
 #######################################

@@ -29,16 +29,13 @@ TXID1="43e65f077ec87e621e2e093667c45787e3a1f2936a358ec4f934febbc05aeee5"
 #TXID4=$(sh__get_next_txid $TXID3)
 
 ATOMID=0
-#es__sf5regprod "$ATOMID 1 1" "$TXID1 0" "$K11_PUB 5"
+es__sf5regprod "$ATOMID 1 1" "$TXID1 0" "$K11_PUB 5"
 
 #show info
-cleos__gt_global4vote
-cleos__gt_sf5producers
+es__gt_global4vote
+es__gt_sf5producers
 echo '================================='
 
 PUBKEY_HASH=$(es__scpubkeyhash_value $K11_PUB)
-
-#curl --request POST \
-#  --url http://127.0.0.1:${KEOSD_PORT}/v1/wallet/sign_digest \
-#  --header 'content-type: application/json' \
-#  -d '["a9356224809a9b0a012952d9abdcfad3a599e6d13ec7550f9187aade8aa9539e","EOS4uyHP7iMBpT9xxfa4jrXqFhqQgEE9BLeH9tVRrQna7L6uUZ1WA"]'
+PUBKEY_SIG=$(curl__sign_digest $PUBKEY_HASH $K11_PUB | cut -d'"' -f 2)
+es__regproducer2 "$TXID1 0" "bp3abcdefg11" "${PUBKEY_SIG}"

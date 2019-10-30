@@ -1,8 +1,28 @@
 #!/bin/bash
 
+[[ "$INCLUDE_CUFS" != "true" ]] && {
+    cd ../test-utils/
+    . contracts.utils.func.sh
+    cd - > /dev/null
+}
+
+export INCLUDE_ESFS="true"
+
 ##############################
 
-function __parm_to_obj__sf5key()
+function es__gt_global4vote()
+{
+    cleos-sc get table eosio eosio global4vote
+}
+
+function es__gt_sf5producers()
+{
+    cleos-sc get table eosio eosio sf5producers
+}
+
+##############################
+
+function __es__parm_to_obj__sf5key()
 {
     local atom_id=$1
     local next_block_num=$2
@@ -11,7 +31,7 @@ function __parm_to_obj__sf5key()
     echo '{"atom_id":'${atom_id}',"next_block_num":'${next_block_num}',"next_tx_index":'${next_tx_index}'}'
 }
 
-function __parm_to_obj__txokey()
+function __es__parm_to_obj__txokey()
 {
     local txid=$1
     local outidx=$2
@@ -19,7 +39,7 @@ function __parm_to_obj__txokey()
     echo '{"txid":"'${txid}'","outidx":'${outidx}'}'
 }
 
-function __parm_to_obj__sfreginfo()
+function __es__parm_to_obj__sfreginfo()
 {
     local sc_pubkey=$1
     local dvdratio=$2
@@ -28,7 +48,7 @@ function __parm_to_obj__sfreginfo()
 }
 
 
-function __parm_to_obj__txo()
+function __es__parm_to_obj__txo()
 {
     local txid=$1
     local outidx=$2
@@ -42,45 +62,6 @@ function __parm_to_obj__txo()
 
 ##############################
 
-function sh__get_txid()
-{
-    local txid=$(date | sha256sum | awk '{print $1}')
-    echo "${txid}"
-}
-
-function sh__get_next_txid()
-{
-    local txid=$1
-    local new_txid=$(echo $txid | sha256sum | awk '{print $1}')
-    echo "${new_txid}"
-}
-
-##############################
-
-function cleos__gt_global4vote()
-{
-    cleos-sc get table eosio eosio global4vote
-}
-
-function cleos__gt_sf5producers()
-{
-    cleos-sc get table eosio eosio sf5producers
-}
-
-function cleos__gc_stats()
-{
-    local token=$1
-    cleos-sc get currency stats eosio.token $token
-}
-
-function cleos__gc_balance()
-{
-    local account=$1
-    cleos-sc get currency balance eosio.token $account
-}
-
-##############################
-
 function es__sf5regprod()
 {
     local sfkey="$1"
@@ -88,9 +69,9 @@ function es__sf5regprod()
     local ri="$3"
     local caller="safe.ssm"
 
-    local sf5key_obj=$(__parm_to_obj__sf5key $sfkey)
-    local txokey_obj=$(__parm_to_obj__txokey $rptxokey)
-    local sfreginfo_obj=$(__parm_to_obj__sfreginfo $ri)
+    local sf5key_obj=$(__es__parm_to_obj__sf5key $sfkey)
+    local txokey_obj=$(__es__parm_to_obj__txokey $rptxokey)
+    local sfreginfo_obj=$(__es__parm_to_obj__sfreginfo $ri)
 
     #do use "${xxx_obj}"!!!
     local json=$(cleos-sc -v push action eosio sf5regprod \
@@ -132,5 +113,26 @@ function es__scpubkeyhash_value()
     [[ "$json" != "" ]] && {
         echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e |
         grep 'eosio.system::scpubkeyhash>' | cut -d'>' -f2
+    }
+}
+
+function es__regproducer2()
+{
+    local rptxokey="$1"
+    local account="$2"
+    local newsig="$3"
+    local caller=$account
+
+    local txokey_obj=$(__es__parm_to_obj__txokey $rptxokey)
+
+    #do use "${xxx_obj}"!!!
+    local json=$(cleos-sc -v push action eosio regproducer2 \
+        '{"rptxokey":'${txokey_obj}',"account":"'${account}'","newsig":"'${newsig}'"}' \
+        -j -p ${caller})
+
+    echo "eosio::regproducer2 by ${caller} result: $?"
+    [[ "$json" != "" ]] && {
+        echo "eosio::regproducer2 output: "
+        echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
     }
 }

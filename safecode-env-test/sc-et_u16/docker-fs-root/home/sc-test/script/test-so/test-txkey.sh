@@ -22,10 +22,10 @@ cd -
 
 ##############################
 
-TXID1=$(get_txid)
-TXID2=$(get_next_txid $TXID1)
-TXID3=$(get_next_txid $TXID2)
-TXID4=$(get_next_txid $TXID3)
+TXID1=$(sh__get_txid)
+TXID2=$(sh__get_next_txid $TXID1)
+TXID3=$(sh__get_next_txid $TXID2)
+TXID4=$(sh__get_next_txid $TXID3)
 
 #reset
 so__setchainpos 5453 0
@@ -91,7 +91,7 @@ echo '================================='
 
 #show info
 so__show_cctx
-show_currency_stats SAFE
-show_currency_balance eosio
-show_currency_balance danx1
+cleos__gc_stats SAFE
+cleos__gc_balance eosio
+cleos__gc_balance danx1
 echo '================================='

@@ -22,8 +22,8 @@ cd -
 
 ##############################
 
-TXID1=$(get_txid)
-TXID2=$(get_next_txid $TXID1)
+TXID1=$(sh__get_txid)
+TXID2=$(sh__get_next_txid $TXID1)
 
 #reset
 so__setchainpos 5453 0
@@ -48,7 +48,7 @@ echo "check cctx by: ${TXID1}-0 ${TXID2}-1"
 echo '================================='
 
 #show info
-show_currency_stats SAFE
-show_currency_balance eosio
-show_currency_balance danx
+cleos__gc_stats SAFE
+cleos__gc_balance eosio
+cleos__gc_balance danx
 echo '================================='

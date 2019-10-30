@@ -24,15 +24,14 @@ cd -
 
 
 #show info
-show_currency_stats SAFE
-show_currency_balance eosio
+cleos__gc_stats SAFE
+cleos__gc_balance eosio
 echo '================================='
 
 cleos-sc transfer eosio danx "1.00000000 SAFE"
 
-show_currency_stats SAFE
-show_currency_balance eosio
-show_currency_balance danx
-show_currency_balance safe.ettfee
+cleos__gc_stats SAFE
+cleos__gc_balance eosio
+cleos__gc_balance danx
+cleos__gc_balance safe.ettfee
 echo '================================='
-

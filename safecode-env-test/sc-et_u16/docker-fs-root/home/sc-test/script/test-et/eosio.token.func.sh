@@ -1,35 +1,11 @@
 #!/bin/bash
 
-##############################
-
-function __parm_to_obj__txo()
-{
-    local txid=$1
-    local outidx=$2
-    local quantity=$3
-    local from=$4
-    local type=$5
-    local tp=$6
-    
-    echo '{"txid":"'${txid}'","outidx":'${outidx}',"quantity":"'${quantity}'","from":["'${from}'"],"tp":"'${tp}'","type":'$type'}'
+[[ "$INCLUDE_CUFS" != "true" ]] && {
+    cd ../test-utils/
+    . contracts.utils.func.sh
+    cd - > /dev/null
 }
 
-##############################
-
-
-##############################
-
-function show_currency_stats()
-{
-    local token=$1
-    cleos-sc get currency stats eosio.token $token
-}
-
-function show_currency_balance()
-{
-    local account=$1
-    cleos-sc get currency balance eosio.token $account
-}
+export INCLUDE_ETFS="true"
 
 ##############################
-

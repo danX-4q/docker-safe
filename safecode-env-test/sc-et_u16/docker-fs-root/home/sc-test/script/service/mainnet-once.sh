@@ -30,6 +30,8 @@ cleos-sc create account eosio eosio.stake $K0_PUB
 cleos-sc create account eosio eosio.vpay $K0_PUB
 cleos-sc create account eosio eosio.rex $K0_PUB
 
+cleos-sc create account eosio safe.ssm $K0_PUB
+
 ##############################
 
 CONTRACTS_DIR="${PWD}/../../../bankledger/safecode.contracts/build/contracts/"

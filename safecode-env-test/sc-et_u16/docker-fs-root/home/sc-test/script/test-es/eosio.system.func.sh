@@ -57,13 +57,23 @@ function sh__get_next_txid()
 
 ##############################
 
-function show_currency_stats()
+function cleos__gt_global4vote()
+{
+    cleos-sc get table eosio eosio global4vote
+}
+
+function cleos__gt_sf5producers()
+{
+    cleos-sc get table eosio eosio sf5producers
+}
+
+function cleos__gc_stats()
 {
     local token=$1
     cleos-sc get currency stats eosio.token $token
 }
 
-function show_currency_balance()
+function cleos__gc_balance()
 {
     local account=$1
     cleos-sc get currency balance eosio.token $account
@@ -71,30 +81,12 @@ function show_currency_balance()
 
 ##############################
 
-function es__vtxo2prod()
-{
-    local txo="$1"
-    local producer="$2"
-
-    local txo_obj=$(__parm_to_obj__txo $txo)
-
-    #do use "${txo_obj}"!!!
-    local json=$(cleos-sc -v push action eosio vtxo2prod \
-        '{"txo":'${txo_obj}',"producer":'${producer}'}' \
-        -j -p safe.oracle)
-    echo "eosio::vtxo2prod result: $?"
-    [[ "$json" != "" ]] && {
-        echo "eosio::vtxo2prod output: "
-        echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
-    }
-}
-
 function es__sf5regprod()
 {
     local sfkey="$1"
     local rptxokey="$2"
     local ri="$3"
-    local caller="$4"
+    local caller="safe.ssm"
 
     local sf5key_obj=$(__parm_to_obj__sf5key $sfkey)
     local txokey_obj=$(__parm_to_obj__txokey $rptxokey)
@@ -109,5 +101,36 @@ function es__sf5regprod()
     [[ "$json" != "" ]] && {
         echo "eosio::sf5regprod output: "
         echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
+    }
+}
+
+function es__scpubkeyhash()
+{
+    local pubkey=$1
+    local caller=eosio
+
+    #do use "${xxx_obj}"!!!
+    local json=$(cleos-sc -v push action eosio sf5pubkhash \
+        '["'${pubkey}'"]' -j -p ${caller})
+
+    echo "eosio::sf5pubkhash by ${caller} result: $?"
+    [[ "$json" != "" ]] && {
+        echo "eosio::sf5pubkhash output: "
+        echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
+    }
+}
+
+function es__scpubkeyhash_value()
+{
+    local pubkey=$1
+    local caller=eosio
+
+    #do use "${xxx_obj}"!!!
+    local json=$(cleos-sc -v push action eosio scpubkeyhash \
+        '["'${pubkey}'"]' -j -p ${caller})
+
+    [[ "$json" != "" ]] && {
+        echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e |
+        grep 'eosio.system::scpubkeyhash>' | cut -d'>' -f2
     }
 }

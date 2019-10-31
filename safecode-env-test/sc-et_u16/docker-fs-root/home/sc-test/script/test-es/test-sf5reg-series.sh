@@ -24,18 +24,51 @@ cd -
 
 TXID1="43e65f077ec87e621e2e093667c45787e3a1f2936a358ec4f934febbc05aeee5"
 #TXID1=$(sh__get_txid)
-#TXID2=$(sh__get_next_txid $TXID1)
-#TXID3=$(sh__get_next_txid $TXID2)
-#TXID4=$(sh__get_next_txid $TXID3)
-
+TXID2=$(sh__get_next_txid $TXID1)
+TXID3=$(sh__get_next_txid $TXID2)
+TXID4=$(sh__get_next_txid $TXID3)
 ATOMID=0
-es__sf5regprod "$ATOMID 1 1" "$TXID1 0" "$K11_PUB 5"
 
-#show info
-es__gt_global4vote
-es__gt_sf5producers
-echo '================================='
+function case_001()
+{
+    es__sf5regprod "$ATOMID 1 1" "$TXID1 0" "$K11_PUB 1 3386"
 
-PUBKEY_HASH=$(es__scpubkeyhash_value $K11_PUB)
-PUBKEY_SIG=$(curl__sign_digest $PUBKEY_HASH $K11_PUB | cut -d'"' -f 2)
-es__regproducer2 "$TXID1 0" "bp3abcdefg11" "${PUBKEY_SIG}"
+    #show info
+    es__gt_global4vote
+    es__gt_sf5producers
+    echo '================================='
+
+    PUBKEY_HASH=$(es__scpubkeyhash_value $K11_PUB)
+    PUBKEY_SIG=$(curl__sign_digest $PUBKEY_HASH $K11_PUB | cut -d'"' -f 2)
+    es__regproducer2 "$TXID1 0" "bp3abcdefg11" "${PUBKEY_SIG}"
+    #show info
+    es__gt_sf5producers
+    echo '================================='
+}
+case_001
+
+function case_002()
+{
+    ((ATOMID+=1))
+    es__sf5regprod "$ATOMID 1 1" "$TXID2 0" "$K12_PUB 2 3386"
+
+    #show info
+    es__gt_global4vote
+    es__gt_sf5producers
+    echo "success"
+    echo '================================='
+
+    ((ATOMID+=1))
+    es__sf5unregprod "$ATOMID 1 1" "$TXID2 0"
+    es__gt_sf5producers
+    echo "success, enable=false"
+    echo '================================='
+
+    PUBKEY_HASH=$(es__scpubkeyhash_value $K12_PUB)
+    PUBKEY_SIG=$(curl__sign_digest $PUBKEY_HASH $K12_PUB | cut -d'"' -f 2)
+    es__regproducer2 "$TXID2 0" "bp3abcdefg12" "${PUBKEY_SIG}"
+    es__gt_sf5producers
+    echo "success: regproducer ok but enable=false"
+    echo '================================='
+}
+case_002

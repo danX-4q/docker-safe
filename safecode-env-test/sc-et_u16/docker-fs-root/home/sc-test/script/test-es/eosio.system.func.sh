@@ -43,8 +43,9 @@ function __es__parm_to_obj__sfreginfo()
 {
     local sc_pubkey=$1
     local dvdratio=$2
+    local location=$3
 
-    echo '{"sc_pubkey":"'${sc_pubkey}'","dvdratio":'${dvdratio}'}'
+    echo '{"sc_pubkey":"'${sc_pubkey}'","dvdratio":'${dvdratio}',"location":'${location}'}'
 }
 
 
@@ -133,6 +134,27 @@ function es__regproducer2()
     echo "eosio::regproducer2 by ${caller} result: $?"
     [[ "$json" != "" ]] && {
         echo "eosio::regproducer2 output: "
+        echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
+    }
+}
+
+function es__sf5unregprod()
+{
+    local sfkey="$1"
+    local rptxokey="$2"
+    local caller="safe.ssm"
+
+    local sf5key_obj=$(__es__parm_to_obj__sf5key $sfkey)
+    local txokey_obj=$(__es__parm_to_obj__txokey $rptxokey)
+
+    #do use "${xxx_obj}"!!!
+    local json=$(cleos-sc -v push action eosio sf5unregprod \
+        '{"sfkey":'${sf5key_obj}',"rptxokey":'${txokey_obj}'}' \
+        -j -p ${caller})
+
+    echo "eosio::sf5unregprod by ${caller} result: $?"
+    [[ "$json" != "" ]] && {
+        echo "eosio::sf5unregprod output: "
         echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
     }
 }

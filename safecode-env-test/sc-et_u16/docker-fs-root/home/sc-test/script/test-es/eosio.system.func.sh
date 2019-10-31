@@ -48,6 +48,15 @@ function __es__parm_to_obj__sfreginfo()
     echo '{"sc_pubkey":"'${sc_pubkey}'","dvdratio":'${dvdratio}',"location":'${location}'}'
 }
 
+function __es__parm_to_obj__sfupdinfo()
+{
+    local has__dvdratio=$1
+    local dvdratio=$2
+    local has__location=$3
+    local location=$4
+
+    echo '{"has__dvdratio":"'${has__dvdratio}'","dvdratio":'${dvdratio}',"has__location":"'${has__location}'","location":'${location}'}'
+}
 
 function __es__parm_to_obj__txo()
 {
@@ -155,6 +164,29 @@ function es__sf5unregprod()
     echo "eosio::sf5unregprod by ${caller} result: $?"
     [[ "$json" != "" ]] && {
         echo "eosio::sf5unregprod output: "
+        echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
+    }
+}
+
+function es__sf5updprodri()
+{
+    local sfkey="$1"
+    local rptxokey="$2"
+    local updri="$3"
+    local caller="safe.ssm"
+
+    local sf5key_obj=$(__es__parm_to_obj__sf5key $sfkey)
+    local txokey_obj=$(__es__parm_to_obj__txokey $rptxokey)
+    local sfupdinfo_obj=$(__es__parm_to_obj__sfupdinfo $updri)
+
+    #do use "${xxx_obj}"!!!
+    local json=$(cleos-sc -v push action eosio sf5updprodri \
+        '{"sfkey":'${sf5key_obj}',"rptxokey":'${txokey_obj}',"updri":'${sfupdinfo_obj}'}' \
+        -j -p ${caller})
+
+    echo "eosio::sf5updprodri by ${caller} result: $?"
+    [[ "$json" != "" ]] && {
+        echo "eosio::sf5updprodri output: "
         echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
     }
 }

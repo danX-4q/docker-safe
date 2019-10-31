@@ -72,3 +72,16 @@ function case_002()
     echo '================================='
 }
 case_002
+
+function case_003()
+{
+    ((ATOMID+=1))
+    es__sf5updprodri "$ATOMID 1 1" "$TXID2 0" "1 20 1 33860"
+
+    #show info
+    es__gt_global4vote
+    es__gt_sf5producers
+    echo "success"
+    echo '================================='
+}
+case_003

@@ -20,6 +20,16 @@ function es__gt_sf5producers()
     cleos-sc get table eosio eosio sf5producers
 }
 
+function es__gt_voters()
+{
+    cleos-sc get table eosio eosio voters
+}
+
+function es__gt_sc5voters()
+{
+    cleos-sc get table eosio eosio sc5voters
+}
+
 ##############################
 
 function __es__parm_to_obj__sf5key()
@@ -187,6 +197,24 @@ function es__sf5updprodri()
     echo "eosio::sf5updprodri by ${caller} result: $?"
     [[ "$json" != "" ]] && {
         echo "eosio::sf5updprodri output: "
+        echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
+    }
+}
+
+function es__sc5vote()
+{
+    local voter="$1"
+    local producer="$2"
+    local caller=$voter
+
+    #do use "${xxx_obj}"!!!
+    local json=$(cleos-sc -v push action eosio sc5vote \
+        '{"voter":"'${voter}'","producer":"'${producer}'"}' \
+        -j -p ${caller})
+
+    echo "eosio::sc5vote by ${caller} result: $?"
+    [[ "$json" != "" ]] && {
+        echo "eosio::sc5vote output: "
         echo $json | jq '.["processed"]["action_traces"][0]["console"]' | xargs echo -e
     }
 }

@@ -49,3 +49,10 @@ cleos-sc system newaccount safe.account bp3abcdefg12 $K0_PUB --stake-net "10000.
 cleos-sc system newaccount safe.account bp3abcdefg13 $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1.00000000 SAFE" -p safe.account@active
 cleos-sc system newaccount safe.account bp3abcdefg14 $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1.00000000 SAFE" -p safe.account@active
 cleos-sc system newaccount safe.account bp3abcdefg15 $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1.00000000 SAFE" -p safe.account@active
+
+
+cleos-sc system newaccount safe.account voter3abcd11 $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1000.00000000 SAFE" -p safe.account@active
+cleos-sc system newaccount safe.account voter3abcd12 $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1000.00000000 SAFE" -p safe.account@active
+cleos-sc system newaccount safe.account voter3abcd13 $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1000.00000000 SAFE" --transfer -p safe.account@active
+cleos-sc system newaccount safe.account voter3abcd14 $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1000.00000000 SAFE" --transfer -p safe.account@active
+cleos-sc system newaccount safe.account voter3abcd15 $K0_PUB --stake-net "10000.00000000 SAFE" --stake-cpu "10000.00000000 SAFE" --buy-ram "1000.00000000 SAFE" --transfer -p safe.account@active

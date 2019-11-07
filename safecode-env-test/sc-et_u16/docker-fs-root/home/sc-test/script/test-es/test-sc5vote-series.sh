@@ -52,8 +52,42 @@ function case_001()
     es__sc5vote voter3abcd13 bp3abcdefg11
     es__gt_voters
     es__gt_sc5voters
-
 }
 case_001
 
+function case_002()
+{
+    #increase stake with --transfer, make voter3abcd13 revote without -p voter3abcd13@active
+    cleos-sc system delegatebw --transfer safe.account voter3abcd13 "10001.00000000 SAFE" "10001.00000000 SAFE" -p safe.account
+    es__gt_voters
+    es__gt_sc5voters
+}
+case_002
 
+function case_003()
+{
+    #increase stake without --transfer, make safe.account(but not voter3abcd13) revote
+    cleos-sc system delegatebw safe.account voter3abcd13 "10001.00000000 SAFE" "10001.00000000 SAFE" -p safe.account
+    es__gt_voters
+    es__gt_sc5voters
+}
+case_003
+
+function case_004()
+{
+    #undelegatebw which stake without --transfer //pre-test-es.sh
+    cleos-sc system undelegatebw safe.account voter3abcd11 "9001.00000000 SAFE" "9001.00000000 SAFE" -p safe.account
+    es__gt_voters
+}
+case_004
+
+function case_005()
+{
+    cleos-sc system delegatebw --transfer safe.account voter3abcd12 "10001.00000000 SAFE" "10001.00000000 SAFE" -p safe.account
+    es__sc5vote voter3abcd12 bp3abcdefg11
+    #undelegatebw which stake with --transfer, unstake to self, and get these tokens to self.
+    cleos-sc system undelegatebw voter3abcd12 voter3abcd12 "9001.00000000 SAFE" "9001.00000000 SAFE" -p voter3abcd12
+    es__gt_voters
+    es__gt_sc5voters
+}
+case_005
